@@ -18,6 +18,28 @@
         .admin-table th { text-align: left; padding: 1.5rem; color: var(--secondary); border-bottom: 1px solid var(--border-light); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; }
         .admin-table td { padding: 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
         .status-select { background: #111; color: var(--accent); border: 1px solid var(--border-light); padding: 0.5rem; font-size: 0.7rem; }
+
+        @media (max-width: 768px) {
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar {
+                width: 100%; height: auto; position: relative;
+                border-right: none; border-bottom: 1px solid var(--border-light);
+                padding: 1.2rem 1.5rem;
+                display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+            }
+            .admin-sidebar .logo { margin-bottom: 0; margin-right: auto; font-size: 1.2rem; }
+            .admin-nav-item {
+                width: auto; padding: 0.7rem 1rem; margin-bottom: 0;
+                font-size: 0.6rem; letter-spacing: 1px;
+            }
+            .admin-nav-item.active { border-left: none; border-bottom: 2px solid var(--accent); }
+            .admin-main { padding: 2rem 1.5rem; }
+            .admin-header { flex-direction: column; gap: 1.5rem; align-items: flex-start; margin-bottom: 2rem; }
+            .admin-header .section-title { font-size: 1.5rem; }
+            .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .admin-table { min-width: 600px; }
+            .admin-table th, .admin-table td { padding: 1rem 0.8rem; font-size: 0.7rem; white-space: nowrap; }
+        }
     </style>
 </head>
 <body ng-controller="ProductController" ng-init="initAdmin()">
@@ -42,7 +64,7 @@
             </div>
 
             <!-- Orders Table -->
-            <div ng-if="adminTab === 'orders'">
+            <div ng-if="adminTab === 'orders'" class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -77,7 +99,7 @@
             </div>
 
             <!-- Products Table -->
-            <div ng-if="adminTab === 'products'">
+            <div ng-if="adminTab === 'products'" class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
@@ -147,8 +169,8 @@
                 <div class="form-group">
                     <label>Product Image</label>
                     <div style="display: flex; gap: 1rem; align-items: center;">
-                        <input type="file" id="productImageInput" accept="image/*" style="display: none;">
-                        <button type="button" onclick="document.getElementById('productImageInput').click()" class="nav-link" style="border: 1px solid var(--border-light); padding: 1rem;">Upload Image</button>
+                        <input type="file" id="productImageInput" file-select="onImageSelected" accept="image/*" style="position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden;">
+                        <label for="productImageInput" class="nav-link" style="border: 1px solid var(--border-light); padding: 1rem; cursor: pointer;">Upload Image</label>
                         <span style="font-size: 0.6rem; color: var(--secondary);">{{selectedFileName || (editingProduct.image_url ? 'Image Ready' : 'No file selected')}}</span>
                     </div>
                     <div ng-if="imagePreviewUrl" style="margin-top: 1rem;">

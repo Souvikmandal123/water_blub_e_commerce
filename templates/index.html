@@ -16,15 +16,20 @@
         <div class="container nav-content">
             <h1 class="logo">MISTJET</h1>
             
-            <div class="nav-actions">
+            <button class="mobile-menu-toggle" ng-click="mobileMenuOpen = !mobileMenuOpen">
+                <span ng-show="!mobileMenuOpen">☰</span>
+                <span ng-show="mobileMenuOpen">✕</span>
+            </button>
+
+            <div class="nav-actions" ng-class="{'mobile-open': mobileMenuOpen}">
                 <nav class="nav-links">
-                    <button class="nav-link">Home</button>
-                    <button class="nav-link" ng-if="user" ng-click="toggleOrders()">Orders</button>
-                    <button class="nav-link" ng-if="user.is_staff" ng-click="toggleAdminDashboard()">Dashboard</button>
-                    <button class="nav-link" ng-if="!user" ng-click="toggleAuth('login')">Login</button>
-                    <button class="nav-link highlight" ng-if="!user" ng-click="toggleAuth('register')">Sign Up</button>
-                    <button class="nav-link" ng-if="user" ng-click="logout()">Logout</button>
-                    <button class="nav-link highlight" ng-click="toggleCart()">
+                    <button class="nav-link" ng-click="mobileMenuOpen = false">Home</button>
+                    <button class="nav-link" ng-if="user" ng-click="toggleOrders(); mobileMenuOpen = false">Orders</button>
+                    <button class="nav-link" ng-if="user.is_staff" ng-click="toggleAdminDashboard(); mobileMenuOpen = false">Dashboard</button>
+                    <button class="nav-link" ng-if="!user" ng-click="toggleAuth('login'); mobileMenuOpen = false">Login</button>
+                    <button class="nav-link highlight" ng-if="!user" ng-click="toggleAuth('register'); mobileMenuOpen = false">Sign Up</button>
+                    <button class="nav-link" ng-if="user" ng-click="logout(); mobileMenuOpen = false">Logout</button>
+                    <button class="nav-link highlight" ng-click="toggleCart(); mobileMenuOpen = false">
                         My Cart <span ng-show="cart.length > 0">({{cart.length}})</span>
                     </button>
                 </nav>

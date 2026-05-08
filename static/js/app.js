@@ -1,5 +1,25 @@
 const app = angular.module('ecommerceApp', []);
 
+// Directive: handles file input change and calls the scope callback
+app.directive('fileSelect', function() {
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function(scope, element, attrs) {
+            element.on('change', function(e) {
+                var file = e.target.files && e.target.files[0];
+                if (file) {
+                    scope.$apply(function() {
+                        scope[attrs.fileSelect](file);
+                    });
+                }
+                // Reset so the same file can be re-selected
+                element[0].value = '';
+            });
+        }
+    };
+});
+
 app.controller('ProductController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
     $scope.products = [];
     $scope.cart = [];
@@ -228,34 +248,15 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
 
     $scope.editProduct = function(product) {
         $scope.editingProduct = angular.copy(product);
+        // Convert price from string to number for input[type=number]
+        if ($scope.editingProduct.price) {
+            $scope.editingProduct.price = parseFloat($scope.editingProduct.price);      
+        }
         $scope.selectedImageFile = null;
         $scope.imagePreviewUrl = null;
         $scope.selectedFileName = null;
         $scope.isUploading = false;
         $scope.isEditProductOpen = true;
-
-        // Attach file input listener after Angular renders the modal DOM
-        $timeout(function() {
-            var fileInput = document.getElementById('productImageInput');
-            if (fileInput) {
-                // Remove old listeners by replacing the element
-                var newInput = fileInput.cloneNode(true);
-                fileInput.parentNode.replaceChild(newInput, fileInput);
-
-                newInput.addEventListener('change', function(e) {
-                    var files = e.target.files;
-                    if (files && files.length > 0) {
-                        var selectedFile = files[0];
-                        $scope.$apply(function() {
-                            $scope.onImageSelected(selectedFile);
-                        });
-                    }
-                    // Reset so the same file can be re-selected
-                    e.target.value = '';
-                });
-                console.log('Image upload listener attached');
-            }
-        }, 100);
     };
 
     // Handle image file selection

@@ -1779,17 +1779,287 @@ body {
     transform: translateY(0);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-    .testimonial-grid { grid-template-columns: 1fr; }
-    .admin-product-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+/* ══════════════════════════════════════════════
+   RESPONSIVE — Tablet & Mobile
+   ══════════════════════════════════════════════ */
+
+/* ── Hamburger Toggle ── */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    z-index: 9999;
 }
 
-@media (max-width: 768px) {
-    .container { padding: 0 2rem; }
-    .hero-title { font-size: 2.5rem; }
-    .admin-form-row { grid-template-columns: 1fr; }
-    .admin-product-grid { grid-template-columns: 1fr; }
-    .admin-dashboard-modal { height: 95vh; border-radius: 12px; }
+/* ══ TABLET ≤ 1024px ══ */
+@media (max-width: 1024px) {
+    .container { padding: 0 2.5rem; }
+
+    .hero { padding: 14rem 0 8rem; }
+    .hero-title { font-size: 3rem; }
+
+    .bento-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 8rem; }
+
+    .product-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 8rem; }
+
+    .testimonial-grid { grid-template-columns: 1fr 1fr; }
+
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+
+    .admin-product-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+    /* Admin dedicated page sidebar */
+    .admin-layout .admin-sidebar { width: 220px; padding: 3rem 1.5rem; }
+    .admin-layout .admin-main { padding: 4rem 3rem; }
+
+    /* Admin orders table — allow horizontal scroll */
+    .order-card-row { font-size: 0.8rem; padding: 1.2rem 1.5rem; }
 }
+
+/* ══ MOBILE ≤ 768px ══ */
+@media (max-width: 768px) {
+    .container { padding: 0 1.5rem; }
+
+    /* ── Navigation ── */
+    .navbar { height: 70px; }
+
+    .mobile-menu-toggle { display: block; }
+
+    .nav-actions { 
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(15, 15, 15, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-light);
+        padding: 0 2rem;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 8999;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .nav-actions.mobile-open {
+        max-height: 500px;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        padding: 1.5rem 2rem 2rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .nav-link {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 1rem 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-link.highlight {
+        text-align: center;
+        margin-top: 0.5rem;
+        padding: 1rem;
+    }
+
+    .user-section {
+        margin-left: 0 !important;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-light);
+    }
+
+    .logo { font-size: 1.3rem; letter-spacing: 4px; }
+
+    /* ── Hero ── */
+    .hero { padding: 10rem 0 5rem; }
+    .hero-title { font-size: 2rem; letter-spacing: 1px; }
+    .hero-subtitle { font-size: 0.9rem; margin-bottom: 2.5rem; }
+    .hero .add-btn { padding: 1.2rem 2.5rem !important; font-size: 0.75rem; }
+
+    /* ── Bento Grid ── */
+    .bento-grid { 
+        grid-template-columns: 1fr; 
+        gap: 1rem; 
+        margin-bottom: 5rem; 
+    }
+    .bento-item { padding: 2.5rem 2rem; }
+    .bento-title { font-size: 1.2rem; }
+
+    /* ── Products ── */
+    .section-header { margin-bottom: 3rem; }
+    .section-title { font-size: 1.8rem; letter-spacing: 2px; }
+
+    .product-grid { 
+        grid-template-columns: 1fr; 
+        gap: 2rem; 
+        margin-bottom: 5rem; 
+    }
+    .product-image { height: 250px; }
+    .product-card:hover { transform: none; }
+
+    .product-bottom { flex-direction: column; align-items: stretch; gap: 1rem; }
+    .product-card .add-btn { 
+        width: 100%; 
+        justify-content: center; 
+        padding: 1rem; 
+    }
+
+    /* ── Testimonials ── */
+    .testimonials { margin-bottom: 5rem; }
+    .testimonial-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .testimonial-card { padding: 2rem; }
+
+    /* ── Footer ── */
+    .footer { padding: 4rem 0 2rem; }
+    .footer-grid { 
+        grid-template-columns: 1fr; 
+        gap: 2rem; 
+        margin-bottom: 3rem; 
+    }
+    .footer-bottom { 
+        flex-direction: column; 
+        gap: 1rem; 
+        text-align: center; 
+    }
+    .legal-links a { margin-left: 0; margin-right: 1rem; }
+
+    /* ── Cart & Modals ── */
+    .cart-modal { 
+        max-width: 100%; 
+        padding: 2rem 1.5rem; 
+    }
+    .auth-modal { 
+        max-width: 100%; 
+        margin: 0 1rem; 
+        padding: 2.5rem 2rem; 
+    }
+    .cart-header, .modal-header { margin-bottom: 2rem; }
+    .total { font-size: 1.2rem; }
+    .form-row { grid-template-columns: 1fr; }
+
+    /* ── Orders List ── */
+    .order-card-row {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.5rem;
+        padding: 1.2rem;
+        font-size: 0.75rem;
+    }
+    .order-card-row > *:nth-child(n+3) {
+        grid-column: span 1;
+    }
+    .order-total-price { text-align: left; }
+
+    /* ── Admin Dashboard Modal ── */
+    .admin-dashboard-modal { 
+        height: 100vh; 
+        border-radius: 0; 
+        max-width: 100%;
+    }
+    .admin-dash-header { padding: 1.2rem 1.5rem 0; }
+    .admin-dash-title-row { margin-bottom: 1rem; }
+    .admin-dash-brand h2 { font-size: 1rem; letter-spacing: 2px; }
+    .admin-tabs { overflow-x: auto; }
+    .admin-tab-btn { font-size: 0.65rem; padding: 0.7rem 1rem; white-space: nowrap; }
+    .admin-dash-content { padding: 1.5rem; }
+    .admin-section-bar { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    .admin-product-grid { grid-template-columns: 1fr; }
+
+    /* ── Admin Edit Modal ── */
+    .admin-edit-modal { 
+        max-width: 100%; 
+        margin: 0; 
+        border-radius: 0; 
+        max-height: 100vh; 
+        height: 100vh;
+    }
+    .admin-edit-header { padding: 1.5rem; }
+    .admin-edit-body { padding: 1.5rem; }
+    .admin-upload-zone { height: 160px; }
+    .admin-form-row { grid-template-columns: 1fr; }
+
+    /* ── Admin Dedicated Page (admin.html) ── */
+    .admin-layout {
+        flex-direction: column;
+    }
+    .admin-layout .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .admin-layout .admin-sidebar .logo { margin-bottom: 0; margin-right: auto; }
+    .admin-layout .admin-sidebar .admin-nav-item {
+        width: auto;
+        padding: 0.8rem 1.2rem;
+        margin-bottom: 0;
+        font-size: 0.65rem;
+    }
+    .admin-layout .admin-main { padding: 2rem 1.5rem; }
+    .admin-layout .admin-header { 
+        flex-direction: column; 
+        gap: 1.5rem;
+        margin-bottom: 2rem; 
+    }
+
+    /* Admin table (dedicated page) — make it scrollable */
+    .admin-layout .admin-table { 
+        display: block; 
+        overflow-x: auto; 
+        white-space: nowrap; 
+    }
+    .admin-layout .admin-table th, 
+    .admin-layout .admin-table td { 
+        min-width: 100px; 
+        font-size: 0.75rem; 
+        padding: 1rem; 
+    }
+
+    /* ── Toast ── */
+    .toast { 
+        right: 1rem; 
+        left: 1rem; 
+        bottom: 1.5rem; 
+        text-align: center; 
+        padding: 1rem; 
+        font-size: 0.65rem; 
+    }
+}
+
+/* ══ SMALL MOBILE ≤ 480px ══ */
+@media (max-width: 480px) {
+    .container { padding: 0 1rem; }
+    .hero-title { font-size: 1.6rem; }
+    .hero-subtitle { font-size: 0.8rem; }
+    .section-title { font-size: 1.5rem; }
+    .bento-item { padding: 2rem 1.5rem; }
+    .product-info { padding: 1.2rem; }
+    .product-name { font-size: 1rem; }
+    .product-price { font-size: 1.2rem; }
+    .cart-modal { padding: 1.5rem 1rem; }
+    .auth-modal { padding: 2rem 1.5rem; margin: 0 0.5rem; }
+    .checkout-btn, .add-btn { font-size: 0.75rem; padding: 1.2rem; letter-spacing: 2px; }
+}
+
