@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ecommerceApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MistJet | Command Center</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="/static/js/app.js"></script>
+    <style>
+        .admin-layout { display: flex; min-height: 100vh; background: var(--bg-base); }
+        .admin-sidebar { width: 300px; border-right: 1px solid var(--border-light); padding: 4rem 2rem; position: sticky; top: 0; height: 100vh; }
+        .admin-main { flex-grow: 1; padding: 6rem; }
+        .admin-nav-item { display: block; width: 100%; text-align: left; padding: 1.5rem; margin-bottom: 1rem; border: none; background: transparent; color: var(--secondary); font-family: var(--font-heading); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+        .admin-nav-item.active { color: var(--accent); border-left: 2px solid var(--accent); background: rgba(197, 160, 89, 0.05); }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5rem; }
+        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table th { text-align: left; padding: 1.5rem; color: var(--secondary); border-bottom: 1px solid var(--border-light); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; }
+        .admin-table td { padding: 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .status-select { background: #111; color: var(--accent); border: 1px solid var(--border-light); padding: 0.5rem; font-size: 0.7rem; }
+    </style>
+</head>
+<body ng-controller="ProductController" ng-init="initAdmin()">
+    {% verbatim %}
+    <div class="admin-layout" ng-if="user.is_staff">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <h1 class="logo" style="margin-bottom: 4rem;">MISTJET</h1>
+            <button class="admin-nav-item" ng-class="{'active': adminTab === 'orders'}" ng-click="setAdminTab('orders')">Orders</button>
+            <button class="admin-nav-item" ng-class="{'active': adminTab === 'products'}" ng-click="setAdminTab('products')">Products</button>
+            <button class="admin-nav-item" style="margin-top: auto;" onclick="window.location.href='/'">View Site</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <div>
+                    <h2 class="section-title" style="margin: 0;">{{adminTab === 'orders' ? 'Order Management' : 'Inventory Control'}}</h2>
+                    <p style="color: var(--secondary);">System Administrator: {{user.username}}</p>
+                </div>
+                <button ng-if="adminTab === 'products'" class="checkout-btn" style="width: auto; padding: 1rem 3rem;" ng-click="editProduct({})">+ Add Product</button>
+            </div>
+
+            <!-- Orders Table -->
+            <div ng-if="adminTab === 'orders'">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="order in adminOrders">
+                            <td class="order-id-tag">#{{order.id}}</td>
+                            <td class="order-date">{{order.date}}</td>
+                            <td>
+                                <strong>{{order.customer_info.name}}</strong><br>
+                                <span style="font-size: 0.75rem; color: var(--secondary);">{{order.customer_info.email}}</span>
+                            </td>
+                            <td class="order-total-price">₹{{order.total}}</td>
+                            <td>
+                                <select ng-model="order.status" ng-change="updateOrderStatus(order)" class="status-select">
+                                    <option value="PENDING">Pending</option>
+                                    <option value="PROCESSING">Processing</option>
+                                    <option value="SHIPPED">Shipped</option>
+                                    <option value="DELIVERED">Delivered</option>
+                                    <option value="CANCELLED">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Products Table -->
+            <div ng-if="adminTab === 'products'">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="product in products">
+                            <td style="display: flex; align-items: center; gap: 1.5rem;">
+                                <img ng-src="{{product.image_url}}" style="width: 50px; height: 50px; object-fit: cover; border: 1px solid var(--border-light);">
+                                <span class="item-name">{{product.name}}</span>
+                            </td>
+                            <td class="order-total-price">₹{{product.price}}</td>
+                            <td style="max-width: 300px; font-size: 0.8rem; color: var(--secondary);">{{product.description}}</td>
+                            <td>
+                                <button class="nav-link" style="font-size: 0.65rem;" ng-click="editProduct(product)">Edit</button>
+                                <button class="nav-link" style="font-size: 0.65rem; color: #ff4444; margin-left: 1rem;" ng-click="deleteProduct(product.id)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Login Overlay -->
+    <div class="auth-overlay active" ng-if="!user.is_staff">
+        <div class="auth-modal" style="max-width: 400px; text-align: center;">
+            <div class="modal-header" style="justify-content: center;">
+                <h2>Admin Login</h2>
+            </div>
+            <p style="color: var(--secondary); margin-bottom: 2rem; font-size: 0.8rem;">Restricted Access: Authorized Personnel Only</p>
+            <form ng-submit="login()" class="shipping-form">
+                <div class="form-group">
+                    <label>Admin ID</label>
+                    <input type="text" ng-model="authData.username" required placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label>Access Password</label>
+                    <input type="password" ng-model="authData.password" required placeholder="Password">
+                </div>
+                <button type="submit" class="checkout-btn">Authorize Entry</button>
+            </form>
+            <p style="margin-top: 2rem; font-size: 0.6rem; color: var(--secondary);">Return to <a href="/" style="color: var(--accent);">Storefront</a></p>
+        </div>
+    </div>
+
+    <!-- Product Edit Modal -->
+    <div class="auth-overlay" ng-class="{'active': isEditProductOpen}" ng-click="isEditProductOpen = false">
+        <div class="auth-modal" ng-click="$event.stopPropagation()" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>{{editingProduct.id ? 'Modify Product' : 'Add Product'}}</h2>
+                <button class="close-btn" ng-click="isEditProductOpen = false">&times;</button>
+            </div>
+            <form ng-submit="saveProduct()" class="shipping-form">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" ng-model="editingProduct.name" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" ng-model="editingProduct.price" required>
+                </div>
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <input type="file" id="productImageInput" accept="image/*" style="display: none;">
+                        <button type="button" onclick="document.getElementById('productImageInput').click()" class="nav-link" style="border: 1px solid var(--border-light); padding: 1rem;">Upload Image</button>
+                        <span style="font-size: 0.6rem; color: var(--secondary);">{{selectedFileName || (editingProduct.image_url ? 'Image Ready' : 'No file selected')}}</span>
+                    </div>
+                    <div ng-if="imagePreviewUrl" style="margin-top: 1rem;">
+                        <img ng-src="{{imagePreviewUrl}}" style="max-width: 200px; max-height: 150px; object-fit: cover; border: 1px solid var(--border-light); border-radius: 4px;">
+                    </div>
+                    <div ng-if="isUploading" style="margin-top: 0.5rem; font-size: 0.7rem; color: var(--accent);">Uploading image...</div>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea ng-model="editingProduct.description" required style="width: 100%; background: transparent; border: 1px solid var(--border-light); color: white; padding: 1rem;"></textarea>
+                </div>
+                <button type="submit" class="checkout-btn">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" ng-class="{'show': showToast}">
+        {{toastMessage}}
+    </div>
+    {% endverbatim %}
+</body>
+</html>
