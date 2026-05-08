@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: water-blub-ecommerce
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn backend.wsgi:application"
