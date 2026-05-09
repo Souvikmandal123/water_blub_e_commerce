@@ -656,6 +656,7 @@ body {
     display: flex;
     flex-direction: column;
     border-left: 1px solid var(--border-light);
+    overflow-y: auto; /* Allow scrolling for tall checkout forms */
 }
 
 .auth-modal {
@@ -770,6 +771,10 @@ body {
 }
 
 /* Shipping Form */
+.shipping-form {
+    padding-bottom: 2rem;
+}
+
 .shipping-form .form-group {
     position: relative;
     margin-bottom: 2rem;
