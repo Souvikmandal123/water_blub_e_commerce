@@ -248,7 +248,13 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
         $http.post('/api/admin/orders/' + order.id + '/status/', { status: order.status })
             .then(function(response) {
                 $scope.showNotification(response.data.message);
+                // Optionally refetch user orders if they are open to stay in sync
+                if ($scope.isOrdersOpen) $scope.fetchOrders();
             });
+    };
+
+    $scope.toggleOrderDetails = function(order) {
+        order.isExpanded = !order.isExpanded;
     };
 
     $scope.editProduct = function(product) {

@@ -224,21 +224,41 @@
                     </div>
                 </div>
                 <div class="orders-list">
-                    <div class="order-card-row" ng-repeat="order in adminOrders | filter:(orderFilter === 'ALL' ? '' : {status: orderFilter})" style="grid-template-columns: 0.4fr 1fr 1fr 1.2fr 0.8fr 1fr;">
-                        <span class="order-id-tag">#{{order.id}}</span>
-                        <span class="order-date" style="font-size: 0.7rem;">{{order.date}}</span>
-                        <span class="order-items-preview">{{order.user}}</span>
-                        <div style="font-size: 0.7rem; color: var(--secondary);">
-                            {{order.customer_info.name}}<br>{{order.customer_info.email}}
+                    <div class="admin-order-item-wrap" ng-repeat="order in adminOrders | filter:(orderFilter === 'ALL' ? '' : {status: orderFilter})" ng-class="{'expanded': order.isExpanded}">
+                        <div class="order-card-row" ng-click="toggleOrderDetails(order)" style="grid-template-columns: 0.4fr 1fr 1fr 1.2fr 0.8fr 1fr; cursor: pointer;">
+                            <span class="order-id-tag">#{{order.id}}</span>
+                            <span class="order-date" style="font-size: 0.7rem;">{{order.date}}</span>
+                            <span class="order-items-preview">{{order.user}}</span>
+                            <div style="font-size: 0.7rem; color: var(--secondary);">
+                                {{order.customer_info.name}}<br>{{order.customer_info.email}}
+                            </div>
+                            <span class="order-total-price">${{order.total}}</span>
+                            <select ng-model="order.status" ng-change="updateOrderStatus(order)" ng-click="$event.stopPropagation()" class="admin-status-select">
+                                <option value="PENDING">Pending</option>
+                                <option value="PROCESSING">Processing</option>
+                                <option value="SHIPPED">Shipped</option>
+                                <option value="DELIVERED">Delivered</option>
+                                <option value="CANCELLED">Cancelled</option>
+                            </select>
                         </div>
-                        <span class="order-total-price">${{order.total}}</span>
-                        <select ng-model="order.status" ng-change="updateOrderStatus(order)" class="admin-status-select">
-                            <option value="PENDING">Pending</option>
-                            <option value="PROCESSING">Processing</option>
-                            <option value="SHIPPED">Shipped</option>
-                            <option value="DELIVERED">Delivered</option>
-                            <option value="CANCELLED">Cancelled</option>
-                        </select>
+                        <!-- Order Details Drawer -->
+                        <div class="order-details-drawer" ng-if="order.isExpanded">
+                            <div class="details-grid">
+                                <div class="details-section">
+                                    <h4>Shipping Address</h4>
+                                    <p>{{order.customer_info.address}}</p>
+                                </div>
+                                <div class="details-section">
+                                    <h4>Order Items</h4>
+                                    <div class="details-items-list">
+                                        <div class="details-item" ng-repeat="item in order.items">
+                                            <span>{{item.quantity}}x {{item.product}}</span>
+                                            <span>${{item.price}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -368,7 +388,7 @@
                     <span class="order-id-tag">Order #{{order.id}}</span>
                     <span class="order-date">{{order.date}}</span>
                     <span class="order-items-preview">{{order.items.length}} Item(s)</span>
-                    <span class="order-status-pill">Dispatched</span>
+                    <span class="order-status-pill">{{order.status}}</span>
                     <span class="order-total-price">${{order.total}}</span>
                 </div>
             </div>

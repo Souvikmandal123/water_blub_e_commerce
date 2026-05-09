@@ -89,7 +89,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="order in adminOrders | filter:(orderFilter === 'ALL' ? '' : {status: orderFilter})">
+                        <tr ng-repeat-start="order in adminOrders | filter:(orderFilter === 'ALL' ? '' : {status: orderFilter})" ng-click="toggleOrderDetails(order)" style="cursor: pointer;">
                             <td class="order-id-tag">#{{order.id}}</td>
                             <td class="order-date">{{order.date}}</td>
                             <td>
@@ -98,13 +98,34 @@
                             </td>
                             <td class="order-total-price">${{order.total}}</td>
                             <td>
-                                <select ng-model="order.status" ng-change="updateOrderStatus(order)" class="status-select">
+                                <select ng-model="order.status" ng-change="updateOrderStatus(order)" ng-click="$event.stopPropagation()" class="status-select">
                                     <option value="PENDING">Pending</option>
                                     <option value="PROCESSING">Processing</option>
                                     <option value="SHIPPED">Shipped</option>
                                     <option value="DELIVERED">Delivered</option>
                                     <option value="CANCELLED">Cancelled</option>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr ng-repeat-end ng-if="order.isExpanded" class="details-expanded-row">
+                            <td colspan="5">
+                                <div class="order-details-drawer expanded">
+                                    <div class="details-grid">
+                                        <div class="details-section">
+                                            <h4>Shipping Address</h4>
+                                            <p>{{order.customer_info.address}}</p>
+                                        </div>
+                                        <div class="details-section">
+                                            <h4>Order Items</h4>
+                                            <div class="details-items-list">
+                                                <div class="details-item" ng-repeat="item in order.items">
+                                                    <span>{{item.quantity}}x {{item.product}}</span>
+                                                    <span>${{item.price}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
