@@ -237,9 +237,14 @@ def admin_manage_product(request):
             product.description = data.get('description', product.description)
             product.price = data.get('price', product.price)
             product.image_url = data.get('image_url', product.image_url)
+            if 'in_stock' in data:
+                product.in_stock = data['in_stock']
             product.save()
             return JsonResponse({"message": "Product updated"})
         else:
+            # Enforce 6 product limit
+            if Product.objects.count() >= 6:
+                return JsonResponse({"error": "Product limit reached. Maximum 6 products allowed."}, status=400)
             Product.objects.create(
                 name=data.get('name'),
                 description=data.get('description'),
@@ -256,6 +261,20 @@ def admin_delete_product(request, product_id):
         try:
             Product.objects.get(id=product_id).delete()
             return JsonResponse({"message": "Product deleted"})
+        except Product.DoesNotExist:
+            return JsonResponse({"error": "Product not found"}, status=404)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
+@csrf_exempt
+@admin_required
+def admin_toggle_stock(request, product_id):
+    if request.method == 'POST':
+        try:
+            product = Product.objects.get(id=product_id)
+            product.in_stock = not product.in_stock
+            product.save()
+            status = "In Stock" if product.in_stock else "Out of Stock"
+            return JsonResponse({"message": f"{product.name} marked as {status}", "in_stock": product.in_stock})
         except Product.DoesNotExist:
             return JsonResponse({"error": "Product not found"}, status=404)
     return JsonResponse({"error": "Invalid request method"}, status=405)

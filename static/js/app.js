@@ -38,6 +38,7 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     $scope.isRegisterOpen = false;
     $scope.authData = { username: '', password: '', email: '' };
     $scope.shippingData = { fullName: '', email: '', address: '', city: '', zipCode: '' };
+    $scope.orderFilter = 'ALL';
 
     // Fetch products and user from Django API
     $scope.init = function() {
@@ -144,6 +145,10 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     };
 
     $scope.addToCart = function(product) {
+        if (!product.in_stock) {
+            $scope.showNotification(product.name + ' is out of stock.');
+            return;
+        }
         $scope.cart.push(angular.copy(product));
         $scope.showNotification(product.name + ' added to collection!');
     };
@@ -340,6 +345,16 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                     $scope.init();
                 });
         }
+    };
+
+    $scope.toggleStock = function(product) {
+        $http.post('/api/admin/products/' + product.id + '/stock/')
+            .then(function(response) {
+                product.in_stock = response.data.in_stock;
+                $scope.showNotification(response.data.message);
+            }, function(error) {
+                $scope.showNotification(error.data.error || 'Failed to update stock');
+            });
     };
 
     $scope.initAdmin = function() {

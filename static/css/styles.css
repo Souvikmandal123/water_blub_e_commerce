@@ -1404,6 +1404,95 @@ body {
     border-color: #ff6b6b;
 }
 
+/* ── Stock Toggle Button ── */
+.admin-inline-btn.stock.in {
+    color: #4caf50;
+    border-color: rgba(76, 175, 80, 0.3);
+}
+
+.admin-inline-btn.stock.in:hover {
+    background: rgba(76, 175, 80, 0.1);
+    border-color: #4caf50;
+}
+
+.admin-inline-btn.stock.out {
+    color: #ff6b6b;
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+.admin-inline-btn.stock.out:hover {
+    background: rgba(255, 60, 60, 0.1);
+    border-color: #ff6b6b;
+}
+
+/* ── Order Status Filter ── */
+.admin-status-filter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+}
+
+.admin-status-filter-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+.admin-status-filter-select {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-family: var(--font-body);
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.admin-status-filter-select option {
+    background: #1a1a1a;
+    color: white;
+}
+
+/* ══════════════════════════════════════════════
+   OUT OF STOCK — Product Card Styling
+   ══════════════════════════════════════════════ */
+
+.product-card.out-of-stock .product-image img {
+    filter: grayscale(60%);
+    opacity: 0.5;
+}
+
+.product-card.out-of-stock .product-card-glow {
+    display: none;
+}
+
+.product-badge.out-of-stock-badge {
+    background: rgba(255, 60, 60, 0.85);
+    border-color: #ff6b6b;
+    color: #fff;
+}
+
+.add-btn.disabled,
+.add-btn:disabled {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: var(--secondary) !important;
+    cursor: not-allowed;
+    border-color: var(--border-light) !important;
+    box-shadow: none !important;
+}
+
+.add-btn.disabled:hover,
+.add-btn:disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
 /* ══════════════════════════════════════════════
    PRODUCT EDIT MODAL — Premium Form
    ══════════════════════════════════════════════ */
@@ -2008,16 +2097,57 @@ body {
     /* ── Admin Dashboard Modal ── */
     .admin-dashboard-modal { 
         height: 100vh; 
+        height: 100dvh;
         border-radius: 0; 
         max-width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
-    .admin-dash-header { padding: 1.2rem 1.5rem 0; }
-    .admin-dash-title-row { margin-bottom: 1rem; }
+    .admin-dash-header { 
+        padding: 1.5rem 1.2rem 0.5rem; 
+        overflow: visible; 
+        flex-shrink: 0;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border-light);
+    }
+    .admin-dash-title-row { 
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
     .admin-dash-brand h2 { font-size: 1rem; letter-spacing: 2px; }
-    .admin-tabs { overflow-x: auto; }
-    .admin-tab-btn { font-size: 0.65rem; padding: 0.7rem 1rem; white-space: nowrap; }
-    .admin-dash-content { padding: 1.5rem; }
-    .admin-section-bar { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    .admin-dash-title-row .close-btn { 
+        position: static;
+        padding: 0.5rem;
+        margin-right: -0.5rem;
+    }
+    .admin-tabs { 
+        overflow-x: auto; 
+        gap: 0.5rem; 
+        padding-bottom: 0.5rem;
+    }
+    .admin-tab-btn { font-size: 0.7rem; padding: 0.8rem 1.2rem; }
+    .admin-dash-content { 
+        padding: 1.5rem; 
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+    .admin-section-bar { 
+        flex-direction: column; 
+        gap: 1.2rem; 
+        align-items: stretch;
+    }
+    .admin-section-bar > div {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    .admin-status-select {
+        width: 100% !important;
+    }
     .admin-product-grid { grid-template-columns: 1fr; }
 
     /* ── Admin Edit Modal ── */
@@ -2084,6 +2214,18 @@ body {
         text-align: center; 
         padding: 1rem; 
         font-size: 0.65rem; 
+    }
+
+    /* ── Admin stock buttons ── */
+    .in-stock-btn {
+        color: #4caf50 !important;
+        border-color: #4caf50 !important;
+        background: rgba(76, 175, 80, 0.1) !important;
+    }
+    .out-stock-btn {
+        color: #ff6b6b !important;
+        border-color: #ff6b6b !important;
+        background: rgba(255, 107, 107, 0.1) !important;
     }
 }
 

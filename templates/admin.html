@@ -55,12 +55,25 @@
 
         <!-- Main Content -->
         <main class="admin-main">
-            <div class="admin-header">
+            <div class="admin-header" style="flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <h2 class="section-title" style="margin: 0;">{{adminTab === 'orders' ? 'Order Management' : 'Inventory Control'}}</h2>
                     <p style="color: var(--secondary);">System Administrator: {{user.username}}</p>
                 </div>
-                <button ng-if="adminTab === 'products'" class="checkout-btn" style="width: auto; padding: 1rem 3rem;" ng-click="editProduct({})">+ Add Product</button>
+                <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <div ng-if="adminTab === 'orders'" class="admin-status-filter-wrap">
+                        <span class="admin-status-filter-label">Status Filter:</span>
+                        <select ng-model="orderFilter" class="admin-status-filter-select">
+                            <option value="ALL">All Statuses</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SHIPPED">Shipped</option>
+                            <option value="DELIVERED">Delivered</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+                    <button ng-if="adminTab === 'products'" class="checkout-btn" style="width: auto; padding: 1rem 3rem;" ng-click="editProduct({})">+ Add Product</button>
+                </div>
             </div>
 
             <!-- Orders Table -->
@@ -76,7 +89,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="order in adminOrders">
+                        <tr ng-repeat="order in adminOrders | filter:(orderFilter === 'ALL' ? '' : {status: orderFilter})">
                             <td class="order-id-tag">#{{order.id}}</td>
                             <td class="order-date">{{order.date}}</td>
                             <td>
@@ -105,6 +118,7 @@
                         <tr>
                             <th>Item</th>
                             <th>Price</th>
+                            <th>Status</th>
                             <th>Description</th>
                             <th>Actions</th>
                         </tr>
@@ -116,6 +130,13 @@
                                 <span class="item-name">{{product.name}}</span>
                             </td>
                             <td class="order-total-price">${{product.price}}</td>
+                            <td>
+                                <button class="nav-link" style="font-size: 0.65rem; padding: 0.4rem 0.8rem;" 
+                                        ng-class="{'in-stock-btn': product.in_stock, 'out-stock-btn': !product.in_stock}"
+                                        ng-click="toggleStock(product)">
+                                    {{product.in_stock ? 'In Stock' : 'Out of Stock'}}
+                                </button>
+                            </td>
                             <td style="max-width: 300px; font-size: 0.8rem; color: var(--secondary);">{{product.description}}</td>
                             <td>
                                 <button class="nav-link" style="font-size: 0.65rem;" ng-click="editProduct(product)">Edit</button>

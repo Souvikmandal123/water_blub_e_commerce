@@ -18,5 +18,6 @@ urlpatterns = [
     path('api/admin/orders/<int:order_id>/status/', views.admin_update_order_status, name='admin_update_status'),
     path('api/admin/products/', views.admin_manage_product, name='admin_products'),
     path('api/admin/products/<int:product_id>/', views.admin_delete_product, name='admin_delete_product'),
+    path('api/admin/products/<int:product_id>/stock/', views.admin_toggle_stock, name='admin_toggle_stock'),
     path('api/admin/upload/', views.admin_upload_image, name='admin_upload'),
 ]
