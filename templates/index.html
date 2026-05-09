@@ -285,7 +285,7 @@
             </div>
             <div class="admin-edit-body">
                 <!-- Image Upload Zone -->
-                <input type="file" id="productImageInput" accept="image/*" style="display: none;">
+                <input type="file" id="productImageInput" file-select="onImageSelected" accept="image/*" style="display: none;">
                 <label for="productImageInput" class="admin-upload-zone" ng-class="{'has-image': editingProduct.image_url || imagePreviewUrl, 'uploading': isUploading}">
                     <!-- Preview State -->
                     <div class="admin-upload-preview" ng-show="imagePreviewUrl || editingProduct.image_url">
