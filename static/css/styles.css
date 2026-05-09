@@ -120,10 +120,30 @@ body {
 }
 
 .nav-link.highlight {
-    color: var(--accent);
+    color: var(--secondary);
+    border: 1px solid var(--border-light);
+    padding: 0.7rem 1.8rem;
+    border-radius: 4px;
+}
+
+.nav-link.highlight:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.nav-link.cart-btn {
+    background: var(--gradient-gold);
+    color: var(--bg-base);
     border: 1px solid var(--accent);
     padding: 0.7rem 1.8rem;
     border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.nav-link.cart-btn:hover {
+    color: var(--bg-base);
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
 }
 
 /* Hero */
@@ -1943,15 +1963,34 @@ body {
     /* ── Cart & Modals ── */
     .cart-modal { 
         max-width: 100%; 
-        padding: 2rem 1.5rem; 
+        padding: 1.5rem;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+    }
+    .cart-items {
+        flex-grow: 1;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+        min-height: 0;
+    }
+    .cart-footer {
+        padding-top: 1.5rem;
+        flex-shrink: 0;
+    }
+    .shipping-form {
+        flex-grow: 1;
+        overflow-y: auto;
+        min-height: 0;
+        padding-bottom: 1rem;
     }
     .auth-modal { 
         max-width: 100%; 
         margin: 0 1rem; 
         padding: 2.5rem 2rem; 
     }
-    .cart-header, .modal-header { margin-bottom: 2rem; }
-    .total { font-size: 1.2rem; }
+    .cart-header, .modal-header { margin-bottom: 1.5rem; }
+    .total { font-size: 1.2rem; margin-bottom: 1.5rem; }
     .form-row { grid-template-columns: 1fr; }
 
     /* ── Orders List ── */
