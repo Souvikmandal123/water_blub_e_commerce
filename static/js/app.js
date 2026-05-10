@@ -122,10 +122,10 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 name: "The Bum Gun Ultra-Flow",
                 description: "Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.",
                 price: "2450",
-                image_url: "https://images.unsplash.com/photo-1631675571452-320c1bc743c4?auto=format&fit=crop&q=80&w=800"
+                image_url: "https://images.unsplash.com/photo-1507652313519-d4c9174996dd?auto=format&fit=crop&q=80&w=800"
             },
             {
-                name: "Aetheria Gold Edition",
+                name: "The Bum Gun Gold Edition",
                 description: "Luxury 24k gold-plated finish. Designed for premium designer bathrooms.",
                 price: "5500",
                 image_url: "https://images.unsplash.com/photo-1604709177595-ee9c2580e9a3?auto=format&fit=crop&q=80&w=800"

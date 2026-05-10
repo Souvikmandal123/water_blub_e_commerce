@@ -62,7 +62,19 @@ def seed_data(request):
                 "name": "The Bum Gun Ultra-Flow",
                 "description": "Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.",
                 "price": 2450.00,
-                "image_url": "https://images.unsplash.com/photo-1631675571452-320c1bc743c4?auto=format&fit=crop&q=80&w=800"
+                "image_url": "https://images.unsplash.com/photo-1507652313519-d4c9174996dd?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                "name": "The Bum Gun Gold Edition",
+                "description": "Luxury 24k gold-plated finish. Designed for premium designer bathrooms.",
+                "price": 5500.00,
+                "image_url": "https://images.unsplash.com/photo-1604709177595-ee9c2580e9a3?auto=format&fit=crop&q=80&w=800"
+            },
+            {
+                "name": "The Bum Gun Compact Mini",
+                "description": "Space-saving design with powerful performance. Ideal for modern apartments.",
+                "price": 950.00,
+                "image_url": "https://images.unsplash.com/photo-1595856902263-d3f3f5a11634?auto=format&fit=crop&q=80&w=800"
             }
         ]
 
