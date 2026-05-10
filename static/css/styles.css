@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;700&display=swap');
 
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
 :root {
     --bg-base: #0f0f0f;
     --bg-card: #161616;
@@ -243,7 +251,7 @@ body {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
     gap: 3rem;
     margin-bottom: 12rem;
 }
@@ -2586,4 +2594,31 @@ body {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* ── Global Mobile Responsive Fixes ── */
+@media (max-width: 1024px) {
+    .container { padding: 0 2rem; }
+    .hero-title { font-size: 3rem; }
+    .product-grid { gap: 2rem; }
+}
 
+@media (max-width: 768px) {
+    .navbar { height: 80px; }
+    .hero { padding: 12rem 0 6rem; }
+    .hero-title { font-size: 2.5rem; }
+    .hero-tagline { font-size: 1.5rem; }
+    .bento-grid { 
+        grid-template-columns: 1fr; 
+        gap: 1.5rem;
+        margin-bottom: 6rem;
+    }
+    .section-title { font-size: 2rem; }
+    .container { padding: 0 1.5rem; }
+}
+
+@media (max-width: 480px) {
+    .hero-title { font-size: 2.2rem; margin-bottom: 0.8rem; }
+    .hero-tagline { font-size: 1.4rem; margin-bottom: 2rem; }
+    .hero-subtitle { font-size: 0.95rem; margin-bottom: 2.5rem; }
+    .nav-links { display: none; } /* Mobile menu handles this */
+    .product-grid { margin-bottom: 6rem; }
+}
