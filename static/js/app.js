@@ -93,10 +93,13 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     };
 
     $scope.toggleAuth = function(type) {
-        if (type === 'login') {
+        if (!type) {
+            $scope.isLoginOpen = false;
+            $scope.isRegisterOpen = false;
+        } else if (type === 'login') {
             $scope.isLoginOpen = !$scope.isLoginOpen;
             $scope.isRegisterOpen = false;
-        } else {
+        } else if (type === 'register') {
             $scope.isRegisterOpen = !$scope.isRegisterOpen;
             $scope.isLoginOpen = false;
         }
