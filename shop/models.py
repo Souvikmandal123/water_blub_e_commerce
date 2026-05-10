@@ -5,6 +5,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    shipping_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     image_url = models.URLField(max_length=500, blank=True)
     in_stock = models.BooleanField(default=True)
 
@@ -18,6 +19,7 @@ class Product(models.Model):
             'description': self.description,
             'price': str(self.price),
             'original_price': str(self.original_price) if self.original_price else None,
+            'shipping_fee': str(self.shipping_fee),
             'image_url': self.image_url,
             'in_stock': self.in_stock,
         }

@@ -127,7 +127,8 @@
                         </button>
                     </div>
                     <div class="product-meta-row">
-                        <span>🚚 Free Shipping</span>
+                        <span ng-if="!product.shipping_fee || product.shipping_fee == '0.00'">🚚 Free Delivery</span>
+                        <span ng-if="product.shipping_fee && product.shipping_fee != '0.00'">🚚 Shipping: £{{product.shipping_fee}}</span>
                         <span ng-if="product.in_stock">✓ In Stock</span>
                         <span ng-if="!product.in_stock" style="color: #ff6b6b;">✕ Out of Stock</span>
                     </div>
@@ -390,6 +391,10 @@
                             <label class="admin-form-label">Original Price (£)</label>
                             <input type="number" class="admin-form-input" ng-model="editingProduct.original_price" placeholder="Optional" step="0.01">
                         </div>
+                        <div class="admin-form-group" style="flex: 1;">
+                            <label class="admin-form-label">Ship Fee (£)</label>
+                            <input type="number" class="admin-form-input" ng-model="editingProduct.shipping_fee" placeholder="0.00" step="0.01">
+                        </div>
                     </div>
                     <div class="admin-form-group">
                         <label class="admin-form-label">Description</label>
@@ -475,9 +480,19 @@
                             <input type="text" ng-model="shippingData.zipCode" required>
                         </div>
                     </div>
-                    <div class="total">
-                        <span>TOTAL PRICE</span>
-                        <span>£{{getTotal()}}</span>
+                    <div class="cart-summary-breakdown" style="margin-top: 1.5rem; border-top: 1px solid var(--border-light); padding-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem;">
+                            <span>Subtotal</span>
+                            <span>£{{getCartSubtotal()}}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 1rem;">
+                            <span>Shipping</span>
+                            <span>£{{getCartShippingTotal()}}</span>
+                        </div>
+                        <div class="total" style="border-top: none; padding-top: 0;">
+                            <span>TOTAL PRICE</span>
+                            <span>£{{getCartTotal()}}</span>
+                        </div>
                     </div>
                     <button type="submit" class="checkout-btn">PLACE ORDER</button>
                 </form>
@@ -491,9 +506,19 @@
             </div>
 
             <div class="cart-footer" ng-show="cart.length > 0 && !isCheckingOut && !isSuccess">
-                <div class="total">
-                    <span>Subtotal</span>
-                    <span>£{{getTotal()}}</span>
+                <div class="cart-summary-breakdown" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem;">
+                        <span>Subtotal</span>
+                        <span>£{{getCartSubtotal()}}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem;">
+                        <span>Shipping</span>
+                        <span>£{{getCartShippingTotal()}}</span>
+                    </div>
+                    <div class="total" style="border-top: 1px solid var(--border-light); padding-top: 1rem;">
+                        <span>Estimated Total</span>
+                        <span>£{{getCartTotal()}}</span>
+                    </div>
                 </div>
                 <button class="checkout-btn" ng-click="startCheckout()">Proceed to Checkout</button>
             </div>

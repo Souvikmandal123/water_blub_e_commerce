@@ -260,8 +260,30 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
             });
     };
 
-    $scope.getTotal = function() {
-        return $scope.cart.reduce(function(sum, item) { return sum + parseFloat(item.price); }, 0).toFixed(2);
+    $scope.getCartTotal = function() {
+        const subtotal = parseFloat($scope.getCartSubtotal());
+        const shipping = parseFloat($scope.getCartShippingTotal());
+        return (subtotal + shipping).toFixed(2);
+    };
+
+    $scope.getCartShippingTotal = function() {
+        try {
+            const globalDelivery = parseFloat($scope.storeSettings.delivery_charge || 0);
+            const productShipping = $scope.cart.reduce(function(sum, item) {
+                const fee = parseFloat(item.shipping_fee || 0);
+                return sum + (isNaN(fee) ? 0 : fee * (item.quantity || 1));
+            }, 0);
+            const total = globalDelivery + productShipping;
+            return isNaN(total) ? "0.00" : total.toFixed(2);
+        } catch (e) {
+            return "0.00";
+        }
+    };
+
+    $scope.getCartSubtotal = function() {
+        return $scope.cart.reduce(function(sum, item) { 
+            return sum + (parseFloat(item.price) * (item.quantity || 1)); 
+        }, 0).toFixed(2);
     };
 
     // Admin Logic
@@ -336,6 +358,9 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
         if ($scope.editingProduct.original_price) {
             $scope.editingProduct.original_price = parseFloat($scope.editingProduct.original_price);      
         }
+        if ($scope.editingProduct.shipping_fee) {
+            $scope.editingProduct.shipping_fee = parseFloat($scope.editingProduct.shipping_fee);      
+        }
         $scope.selectedImageFile = null;
         $scope.imagePreviewUrl = null;
         $scope.selectedFileName = null;
@@ -380,6 +405,7 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 description: $scope.editingProduct.description,
                 price: $scope.editingProduct.price,
                 original_price: $scope.editingProduct.original_price,
+                shipping_fee: $scope.editingProduct.shipping_fee,
                 image_url: imageUrl || $scope.editingProduct.image_url || ''
             };
             if ($scope.editingProduct.id) {
