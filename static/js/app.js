@@ -119,10 +119,10 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 image_url: "https://images.unsplash.com/photo-1728975728593-b128b77fa813?auto=format&fit=crop&q=80&w=800"
             },
             {
-                name: "Ultra-Flow Handheld",
+                name: "The Bum Gun Ultra-Flow",
                 description: "Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.",
                 price: "2450",
-                image_url: "https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800"
+                image_url: "https://images.unsplash.com/photo-1631675571452-320c1bc743c4?auto=format&fit=crop&q=80&w=800"
             },
             {
                 name: "Aetheria Gold Edition",
@@ -146,6 +146,13 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
             });
     };
 
+    $scope.scrollToProducts = function() {
+        const element = document.getElementById('collection-start');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+    
     $scope.addToCart = function(product) {
         if (!product.in_stock) {
             $scope.showNotification(product.name + ' is out of stock.');

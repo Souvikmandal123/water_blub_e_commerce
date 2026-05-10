@@ -29,6 +29,7 @@
             <div class="nav-actions" ng-class="{'mobile-open': mobileMenuOpen}">
                 <nav class="nav-links">
                     <button class="nav-link" ng-click="mobileMenuOpen = false">Home</button>
+                    <button class="nav-link" ng-click="scrollToProducts(); mobileMenuOpen = false">Shop</button>
                     <button class="nav-link" ng-if="user" ng-click="toggleOrders(); mobileMenuOpen = false">Orders</button>
                     <button class="nav-link" ng-if="user.is_staff" ng-click="toggleAdminDashboard(); mobileMenuOpen = false">Dashboard</button>
                     <button class="nav-link" ng-if="!user" ng-click="toggleAuth('login'); mobileMenuOpen = false">Login</button>
@@ -49,8 +50,9 @@
     <main class="container">
         <!-- Hero -->
         <section class="hero reveal">
-            <h2 class="hero-title">ELITE JET SPRAYS | ELEVATE YOUR HYGIENE</h2>
-            <p class="hero-subtitle">Experience the pinnacle of bathroom engineering. Our stainless steel jet sprays combine powerful performance with minimalist luxury.</p>
+            <h2 class="hero-title">Still Using Toilet Papers?</h2>
+            <h3 class="hero-tagline">You Deserve To Be Shower-Fresh Clean</h3>
+            <p class="hero-subtitle">Try our Titan bidet sprayer once. And you'll never return to toilet paper. Willingly...</p>
             <div class="hero-cta" style="display: flex; justify-content: center;">
                 <button class="add-btn" style="width: auto; padding: 1.5rem 4rem; display: inline-block;" ng-click="scrollToProducts()">Shop the Collection</button>
             </div>
