@@ -483,15 +483,15 @@
                     <div class="cart-summary-breakdown" style="margin-top: 1.5rem; border-top: 1px solid var(--border-light); padding-top: 1rem;">
                         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem;">
                             <span>Subtotal</span>
-                            <span>£{{getCartSubtotal()}}</span>
+                            <span>£{{getSub()}}</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 1rem;">
                             <span>Shipping</span>
-                            <span>£{{getCartShippingTotal()}}</span>
+                            <span>£{{getShip()}}</span>
                         </div>
                         <div class="total" style="border-top: none; padding-top: 0;">
                             <span>TOTAL PRICE</span>
-                            <span>£{{getCartTotal()}}</span>
+                            <span>£{{getTotal()}}</span>
                         </div>
                     </div>
                     <button type="submit" class="checkout-btn">PLACE ORDER</button>
@@ -509,15 +509,15 @@
                 <div class="cart-summary-breakdown" style="margin-bottom: 1.5rem;">
                     <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem;">
                         <span>Subtotal</span>
-                        <span>£{{getCartSubtotal()}}</span>
+                        <span>£{{getSub()}}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem;">
                         <span>Shipping</span>
-                        <span>£{{getCartShippingTotal()}}</span>
+                        <span>£{{getShip()}}</span>
                     </div>
                     <div class="total" style="border-top: 1px solid var(--border-light); padding-top: 1rem;">
                         <span>Estimated Total</span>
-                        <span>£{{getCartTotal()}}</span>
+                        <span>£{{getTotal()}}</span>
                     </div>
                 </div>
                 <button class="checkout-btn" ng-click="startCheckout()">Proceed to Checkout</button>

@@ -241,7 +241,9 @@ def admin_manage_product(request):
             product.description = data.get('description', product.description)
             product.price = data.get('price', product.price)
             product.original_price = data.get('original_price', product.original_price)
-            product.shipping_fee = data.get('shipping_fee', product.shipping_fee)
+            ship_fee = data.get('shipping_fee')
+            if ship_fee is not None and ship_fee != '':
+                product.shipping_fee = ship_fee
             product.image_url = data.get('image_url', product.image_url)
             if 'in_stock' in data:
                 product.in_stock = data['in_stock']
@@ -256,7 +258,7 @@ def admin_manage_product(request):
                 description=data.get('description'),
                 price=data.get('price'),
                 original_price=data.get('original_price'),
-                shipping_fee=data.get('shipping_fee', 0.00),
+                shipping_fee=data.get('shipping_fee') if data.get('shipping_fee') else 0.00,
                 image_url=data.get('image_url')
             )
             return JsonResponse({"message": "Product created"}, status=201)

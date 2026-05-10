@@ -260,30 +260,29 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
             });
     };
 
-    $scope.getCartTotal = function() {
-        const subtotal = parseFloat($scope.getCartSubtotal());
-        const shipping = parseFloat($scope.getCartShippingTotal());
-        return (subtotal + shipping).toFixed(2);
+    $scope.getSub = function() {
+        let subtotal = 0;
+        if (!$scope.cart) return "0.00";
+        $scope.cart.forEach(function(item) {
+            subtotal += (parseFloat(item.price || 0) * (item.quantity || 1));
+        });
+        return subtotal.toFixed(2);
     };
 
-    $scope.getCartShippingTotal = function() {
-        try {
-            const globalDelivery = parseFloat($scope.storeSettings.delivery_charge || 0);
-            const productShipping = $scope.cart.reduce(function(sum, item) {
-                const fee = parseFloat(item.shipping_fee || 0);
-                return sum + (isNaN(fee) ? 0 : fee * (item.quantity || 1));
-            }, 0);
-            const total = globalDelivery + productShipping;
-            return isNaN(total) ? "0.00" : total.toFixed(2);
-        } catch (e) {
-            return "0.00";
+    $scope.getShip = function() {
+        let shipping = parseFloat(($scope.storeSettings && $scope.storeSettings.delivery_charge) || 0);
+        if ($scope.cart) {
+            $scope.cart.forEach(function(item) {
+                shipping += (parseFloat(item.shipping_fee || 0) * (item.quantity || 1));
+            });
         }
+        return shipping.toFixed(2);
     };
 
-    $scope.getCartSubtotal = function() {
-        return $scope.cart.reduce(function(sum, item) { 
-            return sum + (parseFloat(item.price) * (item.quantity || 1)); 
-        }, 0).toFixed(2);
+    $scope.getTotal = function() {
+        const sub = parseFloat($scope.getSub());
+        const ship = parseFloat($scope.getShip());
+        return (sub + ship).toFixed(2);
     };
 
     // Admin Logic
