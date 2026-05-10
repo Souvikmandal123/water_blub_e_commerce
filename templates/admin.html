@@ -47,7 +47,9 @@
     <div class="admin-layout" ng-if="user.is_staff">
         <!-- Sidebar -->
         <aside class="admin-sidebar">
-            <h1 class="logo" style="margin-bottom: 4rem;">MISTJET</h1>
+            <a href="/" class="logo" style="margin-bottom: 4rem; text-decoration: none;">
+                <img src="/static/images/logo.png" alt="THE BUM GUN" class="logo-img sidebar-logo" onerror="this.style.display='none'; this.parentElement.innerHTML='THE BUM GUN'">
+            </a>
             <button class="admin-nav-item" ng-class="{'active': adminTab === 'orders'}" ng-click="setAdminTab('orders')">Orders</button>
             <button class="admin-nav-item" ng-class="{'active': adminTab === 'products'}" ng-click="setAdminTab('products')">Products</button>
             <button class="admin-nav-item" style="margin-top: auto;" onclick="window.location.href='/'">View Site</button>
@@ -204,9 +206,15 @@
                     <label>Product Name</label>
                     <input type="text" ng-model="editingProduct.name" required>
                 </div>
-                <div class="form-group">
-                    <label>Price (£)</label>
-                    <input type="number" ng-model="editingProduct.price" required>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Sale Price (£)</label>
+                        <input type="number" ng-model="editingProduct.price" required step="0.01">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Original Price (£)</label>
+                        <input type="number" ng-model="editingProduct.original_price" placeholder="Optional" step="0.01">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Product Image</label>

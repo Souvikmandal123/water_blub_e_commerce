@@ -12,9 +12,9 @@ python manage.py shell -c "
 from shop.models import Product
 if Product.objects.count() == 0:
     Product.objects.bulk_create([
-        Product(name='MistJet Pro Series', description='Full brass body with matte black finish. High-pressure precision jet.', price=1850.00, image_url='https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800'),
-        Product(name='MistJet Chrome Classic', description='Triple-plated chrome finish. Ergonomic grip and anti-clog nozzle.', price=1250.00, image_url='https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800'),
-        Product(name='Ultra-Flow Handheld', description='Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.', price=2450.00, image_url='https://images.unsplash.com/photo-1584622781564-1d9876a13d00?auto=format&fit=crop&q=80&w=800'),
+        Product(name='The Bum Gun Pro Series', description='Full brass body with matte black finish. High-pressure precision jet.', price=1850.00, image_url='https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800'),
+        Product(name='The Bum Gun Chrome Classic', description='Triple-plated chrome finish. Ergonomic grip and anti-clog nozzle.', price=1250.00, image_url='https://images.unsplash.com/photo-1728975728593-b128b77fa813?auto=format&fit=crop&q=80&w=800'),
+        Product(name='Ultra-Flow Handheld', description='Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.', price=2450.00, image_url='https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800'),
     ])
     print('Seeded 3 products.')
 else:

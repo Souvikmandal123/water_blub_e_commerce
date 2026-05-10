@@ -32,7 +32,7 @@ def product_list(request):
 
 @csrf_exempt
 def seed_data(request):
-    """Populates the database with initial Aetheria products."""
+    """Populates the database with initial The Bum Gun products."""
     products_to_seed = []
     
     if request.method == 'POST':
@@ -45,22 +45,24 @@ def seed_data(request):
     if not products_to_seed:
         products_to_seed = [
             {
-                "name": "MistJet Pro Series",
+                "name": "The Bum Gun Pro Series",
                 "description": "Full brass body with matte black finish. High-pressure precision jet.",
                 "price": 1850.00,
+                "original_price": 2450.00,
                 "image_url": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
             },
             {
-                "name": "MistJet Chrome Classic",
+                "name": "The Bum Gun Chrome Classic",
                 "description": "Triple-plated chrome finish. Ergonomic grip and anti-clog nozzle.",
                 "price": 1250.00,
-                "image_url": "https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800"
+                "original_price": 1750.00,
+                "image_url": "https://images.unsplash.com/photo-1728975728593-b128b77fa813?auto=format&fit=crop&q=80&w=800"
             },
             {
                 "name": "Ultra-Flow Handheld",
                 "description": "Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.",
                 "price": 2450.00,
-                "image_url": "https://images.unsplash.com/photo-1584622781564-1d9876a13d00?auto=format&fit=crop&q=80&w=800"
+                "image_url": "https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800"
             }
         ]
 
@@ -70,7 +72,7 @@ def seed_data(request):
     for p in products_to_seed:
         Product.objects.create(**p)
     
-    return JsonResponse({"message": "Ecosystem synchronized with Aetheria collection"})
+    return JsonResponse({"message": "Ecosystem synchronized with The Bum Gun collection"})
 
 @csrf_exempt
 def register_user(request):
@@ -238,6 +240,7 @@ def admin_manage_product(request):
             product.name = data.get('name', product.name)
             product.description = data.get('description', product.description)
             product.price = data.get('price', product.price)
+            product.original_price = data.get('original_price', product.original_price)
             product.image_url = data.get('image_url', product.image_url)
             if 'in_stock' in data:
                 product.in_stock = data['in_stock']
@@ -251,6 +254,7 @@ def admin_manage_product(request):
                 name=data.get('name'),
                 description=data.get('description'),
                 price=data.get('price'),
+                original_price=data.get('original_price'),
                 image_url=data.get('image_url')
             )
             return JsonResponse({"message": "Product created"}, status=201)

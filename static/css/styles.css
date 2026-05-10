@@ -96,6 +96,19 @@ body {
     letter-spacing: 6px;
     color: var(--accent);
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+.sidebar-logo {
+    height: 80px;
+    margin-bottom: 4rem;
 }
 
 .nav-links {

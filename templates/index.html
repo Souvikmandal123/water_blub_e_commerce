@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MistJet | Premium Sanitaryware</title>
+    <title>The Bum Gun | Premium Sanitaryware</title>
     <link rel="stylesheet" href="/static/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.js"></script>
@@ -17,7 +17,9 @@
     {% verbatim %}
     <header class="navbar">
         <div class="container nav-content">
-            <h1 class="logo">MISTJET</h1>
+            <a href="/" class="logo">
+                <img src="/static/images/logo.png" alt="THE BUM GUN" class="logo-img" onerror="this.style.display='none'; this.parentElement.innerHTML='THE BUM GUN'">
+            </a>
             
             <button class="mobile-menu-toggle" ng-click="mobileMenuOpen = !mobileMenuOpen">
                 <span ng-show="!mobileMenuOpen">☰</span>
@@ -72,7 +74,7 @@
 
         <!-- Collections -->
         <div class="section-header reveal" id="collection-start">
-            <span style="text-transform: uppercase; letter-spacing: 4px; color: var(--secondary); font-size: 0.7rem;">The MistJet Selection</span>
+            <span style="text-transform: uppercase; letter-spacing: 4px; color: var(--secondary); font-size: 0.7rem;">The Bum Gun Selection</span>
             <h2 class="section-title">The Signature Series</h2>
             <p style="color: var(--secondary); font-size: 0.8rem; max-width: 600px; margin: 0 auto;">Discover our most popular toilet jet sprays, selected for their durability and elegant design.</p>
         </div>
@@ -113,7 +115,10 @@
                     </div>
                     <div class="product-bottom">
                         <div class="price-block">
-                            <span class="product-price">£{{product.price}}</span>
+                            <div style="display: flex; align-items: baseline; gap: 0.8rem;">
+                                <span class="product-price">£{{product.price}}</span>
+                                <span ng-if="product.original_price" style="text-decoration: line-through; color: var(--secondary); font-size: 0.9rem; font-family: var(--font-heading); opacity: 0.6;">£{{product.original_price}}</span>
+                            </div>
                             <span class="price-label">incl. taxes</span>
                         </div>
                         <button class="add-btn" ng-click="addToCart(product)" ng-disabled="!product.in_stock" ng-class="{'disabled': !product.in_stock}">
@@ -139,7 +144,7 @@
         <div class="testimonial-grid">
             <div class="testimonial-card">
                 <div class="rating">★★★★★</div>
-                <p>"The pressure control on the MistJet Pro is exceptional. It transformed my bathroom experience. Truly elite engineering."</p>
+                <p>"The pressure control on The Bum Gun Pro is exceptional. It transformed my bathroom experience. Truly elite engineering."</p>
                 <div class="client">- Rajesh K., Bangalore</div>
             </div>
             <div class="testimonial-card">
@@ -160,7 +165,9 @@
         <div class="container">
             <div class="footer-grid" style="grid-template-columns: 2fr 1fr 1fr;">
                 <div class="footer-brand">
-                    <h2 class="logo">MISTJET</h2>
+                    <div class="logo">
+                        <img src="/static/images/logo.png" alt="THE BUM GUN" class="logo-img" style="height: 60px;" onerror="this.style.display='none'; this.parentElement.innerHTML='THE BUM GUN'">
+                    </div>
                     <p>Elevating personal hygiene through precision engineering and minimalist luxury.</p>
                 </div>
                 <div class="footer-links">
@@ -177,10 +184,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 MistJet Sanitaryware. All rights reserved.</p>
+                <p>&copy; 2026 The Bum Gun Sanitaryware. All rights reserved.</p>
                 <div class="legal-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -356,14 +361,35 @@
                     </div>
                 </label>
 
-                <form ng-submit="saveProduct()" class="admin-edit-form">
+                <!-- Settings Tab -->
+                <div ng-show="adminTab === 'settings'" style="padding: 2rem 0;">
+                    <h3 style="font-family: var(--font-heading); margin-bottom: 1.5rem; letter-spacing: 2px;">GLOBAL SETTINGS</h3>
+                    <div class="admin-edit-form">
+                        <div class="admin-form-group">
+                            <label class="admin-form-label">Delivery Charge (£)</label>
+                            <input type="number" class="admin-form-input" ng-model="siteSettings.shipping_charge" step="0.01">
+                        </div>
+                        <button type="button" class="admin-save-btn" ng-click="updateSiteSettings()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Update Settings
+                        </button>
+                    </div>
+                </div>
+
+                <form ng-submit="saveProduct()" class="admin-edit-form" ng-show="adminTab === 'products'">
                     <div class="admin-form-group">
                         <label class="admin-form-label">Product Name</label>
                         <input type="text" class="admin-form-input" ng-model="editingProduct.name" required placeholder="e.g. MistJet Pro X1">
                     </div>
-                    <div class="admin-form-group">
-                        <label class="admin-form-label">Price (£)</label>
-                        <input type="number" class="admin-form-input" ng-model="editingProduct.price" required placeholder="0.00">
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="admin-form-group" style="flex: 1;">
+                            <label class="admin-form-label">Sale Price (£)</label>
+                            <input type="number" class="admin-form-input" ng-model="editingProduct.price" required placeholder="0.00" step="0.01">
+                        </div>
+                        <div class="admin-form-group" style="flex: 1;">
+                            <label class="admin-form-label">Original Price (£)</label>
+                            <input type="number" class="admin-form-input" ng-model="editingProduct.original_price" placeholder="Optional" step="0.01">
+                        </div>
                     </div>
                     <div class="admin-form-group">
                         <label class="admin-form-label">Description</label>
@@ -496,7 +522,7 @@
                     </div>
                     <button type="submit" class="checkout-btn">LOGIN</button>
                     <p style="text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--secondary); letter-spacing: 1px;">
-                        New to MistJet? <span style="color: var(--accent); cursor: pointer;" ng-click="toggleAuth('register')">Register Now</span>
+                        New to The Bum Gun? <span style="color: var(--accent); cursor: pointer;" ng-click="toggleAuth('register')">Register Now</span>
                     </p>
                 </form>
 
@@ -518,7 +544,7 @@
                     </div>
                     <button type="submit" class="checkout-btn">REGISTER</button>
                     <p style="text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--secondary); letter-spacing: 1px;">
-                        Welcome to MistJet. <span style="color: var(--accent); cursor: pointer;" ng-click="toggleAuth('login')">Login here</span>
+                        Welcome to The Bum Gun. <span style="color: var(--accent); cursor: pointer;" ng-click="toggleAuth('login')">Login here</span>
                     </p>
                 </form>
             </div>

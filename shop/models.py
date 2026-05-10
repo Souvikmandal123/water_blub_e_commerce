@@ -4,6 +4,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image_url = models.URLField(max_length=500, blank=True)
     in_stock = models.BooleanField(default=True)
 
@@ -16,6 +17,7 @@ class Product(models.Model):
             'name': self.name,
             'description': self.description,
             'price': str(self.price),
+            'original_price': str(self.original_price) if self.original_price else None,
             'image_url': self.image_url,
             'in_stock': self.in_stock,
         }

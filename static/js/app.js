@@ -105,22 +105,24 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     $scope.seedData = function() {
         const initialProducts = [
             {
-                name: "MistJet Pro Series",
+                name: "The Bum Gun Pro Series",
                 description: "Full brass body with matte black finish. High-pressure precision jet.",
                 price: "1850",
+                original_price: "2450",
                 image_url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800"
             },
             {
-                name: "MistJet Chrome Classic",
+                name: "The Bum Gun Chrome Classic",
                 description: "Triple-plated chrome finish. Ergonomic grip and anti-clog nozzle.",
                 price: "1250",
-                image_url: "https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800"
+                original_price: "1750",
+                image_url: "https://images.unsplash.com/photo-1728975728593-b128b77fa813?auto=format&fit=crop&q=80&w=800"
             },
             {
                 name: "Ultra-Flow Handheld",
                 description: "Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.",
                 price: "2450",
-                image_url: "https://images.unsplash.com/photo-1584622781564-1d9876a13d00?auto=format&fit=crop&q=80&w=800"
+                image_url: "https://images.unsplash.com/photo-1620626011761-9963d7521576?auto=format&fit=crop&q=80&w=800"
             },
             {
                 name: "Aetheria Gold Edition",
@@ -129,7 +131,7 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 image_url: "https://images.unsplash.com/photo-1604709177595-ee9c2580e9a3?auto=format&fit=crop&q=80&w=800"
             },
             {
-                name: "MistJet Compact Mini",
+                name: "The Bum Gun Compact Mini",
                 description: "Space-saving design with powerful performance. Ideal for modern apartments.",
                 price: "950",
                 image_url: "https://images.unsplash.com/photo-1595856902263-d3f3f5a11634?auto=format&fit=crop&q=80&w=800"
@@ -140,7 +142,7 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
         
         $http.post('/api/seed/', { products: initialProducts })
             .then(function(response) {
-                console.log("Database synchronized with MistJet sanitaryware collection");
+                console.log("Database synchronized with The Bum Gun sanitaryware collection");
             });
     };
 
@@ -331,6 +333,9 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
         if ($scope.editingProduct.price) {
             $scope.editingProduct.price = parseFloat($scope.editingProduct.price);      
         }
+        if ($scope.editingProduct.original_price) {
+            $scope.editingProduct.original_price = parseFloat($scope.editingProduct.original_price);      
+        }
         $scope.selectedImageFile = null;
         $scope.imagePreviewUrl = null;
         $scope.selectedFileName = null;
@@ -374,6 +379,7 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 name: $scope.editingProduct.name,
                 description: $scope.editingProduct.description,
                 price: $scope.editingProduct.price,
+                original_price: $scope.editingProduct.original_price,
                 image_url: imageUrl || $scope.editingProduct.image_url || ''
             };
             if ($scope.editingProduct.id) {
