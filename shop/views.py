@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 import json
+import requests
 from .models import Product, Order, OrderItem
 
 # Administrative Decorator
@@ -304,4 +306,44 @@ def admin_upload_image(request):
             "url": f"/media/{file_name}"
         })
     return JsonResponse({"error": "No image uploaded"}, status=400)
+
+@csrf_exempt
+def create_revolut_order(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            amount = data.get('amount') # in pounds, e.g. 10.00
+            
+            # Revolut API expects amount in pence as an integer
+            amount_cents = int(float(amount) * 100)
+            
+            payload = {
+                "amount": amount_cents,
+                "currency": "GBP",
+                "capture_mode": "AUTOMATIC"
+            }
+            
+            headers = {
+                "Authorization": f"Bearer {settings.REVOLUT_SECRET_KEY}",
+                "Content-Type": "application/json",
+                "Revolut-Api-Version": settings.REVOLUT_API_VERSION
+            }
+            
+            response = requests.post(settings.REVOLUT_API_URL, json=payload, headers=headers)
+            
+            if response.status_code == 201:
+                revolut_data = response.json()
+                # Revolut uses 'public_id' or 'token' depending on version. 
+                # Let's return the whole thing or specifically public_id
+                return JsonResponse({"public_id": revolut_data.get("public_id")})
+            else:
+                return JsonResponse({
+                    "error": "Failed to create Revolut order",
+                    "details": response.text
+                }, status=response.status_code)
+                
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+            
+    return JsonResponse({"error": "Invalid method"}, status=405)
 

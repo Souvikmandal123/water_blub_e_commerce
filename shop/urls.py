@@ -20,4 +20,5 @@ urlpatterns = [
     path('api/admin/products/<int:product_id>/', views.admin_delete_product, name='admin_delete_product'),
     path('api/admin/products/<int:product_id>/stock/', views.admin_toggle_stock, name='admin_toggle_stock'),
     path('api/admin/upload/', views.admin_upload_image, name='admin_upload'),
+    path('api/revolut/create-order/', views.create_revolut_order, name='create_revolut_order'),
 ]

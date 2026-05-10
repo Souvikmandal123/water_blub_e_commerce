@@ -663,10 +663,29 @@ body {
     width: 100%;
     max-width: 450px;
     background: var(--bg-card);
-    padding: 5rem;
     border: 1px solid var(--border-light);
     transform: scale(0.9);
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    max-height: 90dvh;
+}
+
+.modal-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 2.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--accent);
 }
 
 .cart-overlay.active .cart-modal {
@@ -681,7 +700,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4rem;
+    padding: 2.5rem;
+    border-bottom: 1px solid var(--border-light);
+    flex-shrink: 0;
 }
 
 .cart-header h3, .modal-header h2 {
@@ -2330,11 +2351,216 @@ body {
     .product-name { font-size: 1rem; }
     .product-price { font-size: 1.2rem; }
     .cart-modal { padding: 1.5rem 1rem; }
-    .auth-modal { padding: 2rem 1.5rem; margin: 0 0.5rem; }
+    .auth-modal { margin: 0 0.5rem; max-height: 95vh; max-height: 95dvh; }
     .checkout-btn, .add-btn { font-size: 0.75rem; padding: 1.2rem; letter-spacing: 2px; }
+}
+
+/* ══════════════════════════════════════════════
+   REVOLUT PAYMENT GATEWAY
+   ══════════════════════════════════════════════ */
+
+.revolut-modal {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    color: #191c1f;
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 50px 120px rgba(0, 0, 0, 0.4);
+    transform: scale(0.9);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.auth-overlay.active .revolut-modal {
+    transform: scale(1);
+}
+
+.revolut-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.revolut-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.5px;
+}
+
+.revolut-logo {
+    width: 32px;
+    height: 32px;
+    background: #0075eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.revolut-close {
+    background: #f4f5f7;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: #8a8d91;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.revolut-summary {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.summary-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #8a8d91;
+    margin-bottom: 0.5rem;
+}
+
+.summary-amount {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+/* Simulated Revolut Card */
+.revolut-card-display {
+    background: linear-gradient(135deg, #0075eb 0%, #004fb0 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    color: white;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+    box-shadow: 0 15px 35px rgba(0, 117, 235, 0.3);
+}
+
+.card-chip {
+    width: 40px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.card-number {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.card-expiry {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.revolut-card-logo {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-weight: 800;
+    font-style: italic;
+    opacity: 0.6;
+    font-size: 0.9rem;
+}
+
+.revolut-hint {
+    font-size: 0.85rem;
+    color: #8a8d91;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.revolut-pay-btn {
+    width: 100%;
+    background: #191c1f;
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.revolut-pay-btn:hover {
+    background: #000000;
+    transform: translateY(-2px);
+}
+
+.revolut-footer {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #8a8d91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Processing State */
+.revolut-processing {
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.revolut-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f4f5f7;
+    border-top: 4px solid #0075eb;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    animation: spin 1s linear infinite;
+}
+
+.revolut-processing h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+    .revolut-modal {
+        max-width: calc(100% - 2rem);
+        margin: 0 1rem;
+        padding: 2rem 1.5rem;
+    }
+    .summary-amount { font-size: 2rem; }
 }
 
 @keyframes slideDown {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+

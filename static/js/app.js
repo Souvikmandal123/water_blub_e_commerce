@@ -1,4 +1,4 @@
-const app = angular.module('ecommerceApp', []);
+const app = angular.module('ecommerceApp', ['ngSanitize']);
 
 // Directive: handles file input change and calls the scope callback
 app.directive('fileSelect', function() {
@@ -197,7 +197,48 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
         $scope.isCheckingOut = true;
     };
 
+    $scope.isPaymentProcessing = false;
+
     $scope.processCheckout = function() {
+        // Step 1: Create Revolut Order on backend
+        $scope.isPaymentProcessing = true;
+        
+        const amount = $scope.getTotal();
+        $http.post('/api/revolut/create-order/', { amount: amount })
+            .then(function(response) {
+                const public_id = response.data.public_id;
+                
+                // Step 2: Initialize Revolut Checkout
+                RevolutCheckout(public_id, 'sandbox').then(function(instance) {
+                    instance.payWithPopup({
+                        onSuccess() {
+                            $scope.$apply(function() {
+                                $scope.submitOrder();
+                                $scope.isPaymentProcessing = false;
+                            });
+                        },
+                        onError(error) {
+                            $scope.$apply(function() {
+                                $scope.showNotification("Payment failed: " + error.message);
+                                $scope.isPaymentProcessing = false;
+                            });
+                        },
+                        onCancel() {
+                            $scope.$apply(function() {
+                                $scope.isPaymentProcessing = false;
+                            });
+                        }
+                    });
+                });
+            }, function(error) {
+                $scope.isPaymentProcessing = false;
+                const errorMsg = error.data.error || "Failed to initiate Revolut payment";
+                $scope.showNotification(errorMsg);
+                console.error("Revolut Error:", error.data);
+            });
+    };
+
+    $scope.submitOrder = function() {
         const payload = {
             cart: $scope.cart,
             shipping: $scope.shippingData
@@ -210,6 +251,7 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 $scope.isSuccess = true;
                 $scope.lastOrderId = response.data.order_id;
                 $scope.isCheckingOut = false;
+                $scope.isCartOpen = true; // Ensure they see the success message
                 $scope.shippingData = { fullName: '', email: '', address: '', city: '', zipCode: '' };
             }, function(error) {
                 $scope.showNotification(error.data.error || "Checkout failed");
@@ -226,6 +268,32 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     $scope.adminOrders = [];
     $scope.isEditProductOpen = false;
     $scope.editingProduct = {};
+    $scope.isInfoOpen = false;
+    $scope.infoType = '';
+
+    $scope.infoContent = {
+        installation: {
+            title: 'Installation Guide',
+            content: 'Installing your MistJet elite spray is a straightforward 5-minute process. <br><br>1. Turn off the water supply.<br>2. Unscrew your existing hose/head.<br>3. Attach the MistJet universal connector with the provided rubber washers.<br>4. Tighten firmly but do not over-torque.<br>5. Turn on water and check for leaks.<br><br><a href="https://www.youtube.com/watch?v=6OSDKHiwZm8" target="_blank" class="checkout-btn" style="display: block; text-align: center; margin-top: 1.5rem; text-decoration: none;">Watch Video Tutorial</a>'
+        },
+        shipping: {
+            title: 'Shipping Policy',
+            content: 'We offer worldwide complimentary express shipping on all MistJet orders. <br><br>• Domestic (India): 2-4 business days.<br>• International: 5-8 business days.<br>• Tracking: You will receive a tracking ID via email once your order is dispatched.<br>• Packaging: All products are shipped in our signature premium protective case.'
+        },
+        warranty: {
+            title: 'Elite Warranty',
+            content: 'MistJet stands behind the quality of its engineering. <br><br>• 2-Year Full Coverage: Protection against any manufacturing defects.<br>• Premium Support: 24/7 access to our concierge support team for any technical issues.<br>• Hassle-Free Replacement: If your product fails under normal use, we will ship a replacement free of charge.'
+        },
+        contact: {
+            title: 'Contact Us',
+            content: 'Our concierge team is available 24/7 to assist with your inquiries.<br><br><b>📞 Mobile:</b> +91 98765 43210<br><b>✉️ Email:</b> concierge@mistjet.com<br><b>📍 Address:</b> 12th Floor, Skyview Towers, Hitech City, Hyderabad, India - 500081'
+        }
+    };
+
+    $scope.openInfo = function(type) {
+        $scope.infoType = type;
+        $scope.isInfoOpen = true;
+    };
 
     $scope.toggleAdminDashboard = function() {
         if (!$scope.user || !$scope.user.is_staff) return;
