@@ -62,7 +62,7 @@ def seed_data(request):
                 "name": "The Bum Gun Ultra-Flow",
                 "description": "Flexible 1.5m stainless steel hose. Dual-mode adjustable spray.",
                 "price": 2450.00,
-                "image_url": "https://images.unsplash.com/photo-1507652313519-d4c9174996dd?auto=format&fit=crop&q=80&w=800"
+                "image_url": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=800"
             },
             {
                 "name": "The Bum Gun Gold Edition",
