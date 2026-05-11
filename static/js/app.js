@@ -307,19 +307,19 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     $scope.infoContent = {
         installation: {
             title: 'Installation Guide',
-            content: 'Installing your MistJet elite spray is a straightforward 5-minute process. <br><br>1. Turn off the water supply.<br>2. Unscrew your existing hose/head.<br>3. Attach the MistJet universal connector with the provided rubber washers.<br>4. Tighten firmly but do not over-torque.<br>5. Turn on water and check for leaks.<br><br><a href="https://www.youtube.com/watch?v=6OSDKHiwZm8" target="_blank" class="checkout-btn" style="display: block; text-align: center; margin-top: 1.5rem; text-decoration: none;">Watch Video Tutorial</a>'
+            content: 'Follow these steps to install your Titan bidet sprayer:<br><br>1. Turn off water valve<br>2. Flush & disconnect supply line<br>3. Install safety-valve onto tank<br>4. Reconnect supply line to valve<br>5. Seat washers deep into collars and attach hose & sprayer<br>6. Mount holder to wall with fixtures provided<br>7. Turn water back on & test<br><br><a href="https://www.youtube.com/watch?v=6OSDKHiwZm8" target="_blank" class="checkout-btn" style="display: block; text-align: center; margin-top: 1.5rem; text-decoration: none;">Watch Video Tutorial</a>'
         },
         shipping: {
             title: 'Shipping Policy',
-            content: 'We offer worldwide complimentary express shipping on all MistJet orders. <br><br>• Domestic (India): 2-4 business days.<br>• International: 5-8 business days.<br>• Tracking: You will receive a tracking ID via email once your order is dispatched.<br>• Packaging: All products are shipped in our signature premium protective case.'
+            content: 'We offer worldwide complimentary express shipping on all orders. <br><br>• Domestic: 2-4 business days.<br>• International: 5-8 business days.<br>• Tracking: You will receive a tracking ID via email once your order is dispatched.<br>• Packaging: All products are shipped in our signature premium protective case.'
         },
         warranty: {
             title: 'Elite Warranty',
-            content: 'MistJet stands behind the quality of its engineering. <br><br>• 2-Year Full Coverage: Protection against any manufacturing defects.<br>• Premium Support: 24/7 access to our concierge support team for any technical issues.<br>• Hassle-Free Replacement: If your product fails under normal use, we will ship a replacement free of charge.'
+            content: 'The Bum Gun stands behind the quality of its engineering. <br><br>• 2-Year Full Coverage: Protection against any manufacturing defects.<br>• Premium Support: 24/7 access to our concierge support team for any technical issues.<br>• Hassle-Free Replacement: If your product fails under normal use, we will ship a replacement free of charge.'
         },
         contact: {
             title: 'Contact Us',
-            content: 'Our concierge team is available 24/7 to assist with your inquiries.<br><br><b>📞 Mobile:</b> +91 98765 43210<br><b>✉️ Email:</b> concierge@mistjet.com<br><b>📍 Address:</b> 12th Floor, Skyview Towers, Hitech City, Hyderabad, India - 500081'
+            content: 'Our team is available to assist with your inquiries.<br><br>• <b>Email:</b> info@thebumgun.com<br>• <b>Phone:</b> +44 (0) 56 0367 9116<br>• <b>Address:</b> 3 Newland Ave, Harrogate, North Yorks, HG2 8LP, England'
         }
     };
 
