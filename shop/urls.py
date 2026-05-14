@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/admin/products/<int:product_id>/stock/', views.admin_toggle_stock, name='admin_toggle_stock'),
     path('api/admin/upload/', views.admin_upload_image, name='admin_upload'),
     path('api/revolut/create-order/', views.create_revolut_order, name='create_revolut_order'),
+    path('api/revolut/webhook/', views.revolut_webhook, name='revolut_webhook'),
 ]

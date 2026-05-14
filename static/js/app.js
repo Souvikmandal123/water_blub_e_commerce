@@ -215,13 +215,17 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
         // Step 1: Create Revolut Order on backend
         $scope.isPaymentProcessing = true;
         
-        const amount = $scope.getTotal();
-        $http.post('/api/revolut/create-order/', { amount: amount })
+        const payload = {
+            cart: $scope.cart,
+            shipping: $scope.shippingData
+        };
+        
+        $http.post('/api/revolut/create-order/', payload)
             .then(function(response) {
                 const public_id = response.data.public_id;
                 
                 // Step 2: Initialize Revolut Checkout
-                RevolutCheckout(public_id, 'sandbox').then(function(instance) {
+                RevolutCheckout(public_id, 'prod').then(function(instance) {
                     instance.payWithPopup({
                         onSuccess() {
                             $scope.$apply(function() {

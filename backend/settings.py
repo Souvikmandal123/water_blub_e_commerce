@@ -79,7 +79,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Revolut Payment Settings
-# Get your API key from Revolut Business -> Settings -> API -> Merchant API
-REVOLUT_SECRET_KEY = "sk_placeholder_please_replace_with_your_actual_revolut_secret_key"
-REVOLUT_API_URL = "https://sandbox-merchant.revolut.com/api/1.0/orders"  # Use sandbox for testing
+REVOLUT_SECRET_KEY = os.environ.get('REVOLUT_SECRET_KEY', "sk_XyDQqm2Omcr73zyCGWXZ6UY8tbu0xL-h5wmuxT-1ZiADjR02OTVjNHGCBAj6CgL4")
+REVOLUT_PUBLIC_KEY = os.environ.get('REVOLUT_PUBLIC_KEY', "pk_3AYVmofj717rgW2lqmvSGRwwWCNPPdAknv27TtPtimrCFzM0")
+REVOLUT_API_URL = "https://merchant.revolut.com/api/1.0/orders"
 REVOLUT_API_VERSION = "2023-09-01"
+REVOLUT_WEBHOOK_SECRET = os.environ.get('REVOLUT_WEBHOOK_SECRET', "") # Add this later for security

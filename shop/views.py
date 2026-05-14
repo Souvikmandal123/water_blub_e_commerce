@@ -331,18 +331,60 @@ def admin_upload_image(request):
 
 @csrf_exempt
 def create_revolut_order(request):
+    """
+    Creates a local order first, then creates a Revolut order linked to it.
+    """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            amount = data.get('amount') # in pounds, e.g. 10.00
+            cart = data.get('cart', [])
+            shipping = data.get('shipping')
             
-            # Revolut API expects amount in pence as an integer
-            amount_cents = int(float(amount) * 100)
+            if not cart or not shipping:
+                return JsonResponse({"error": "Cart or shipping info missing"}, status=400)
             
+            # 1. Calculate total and validate products
+            total_pounds = 0
+            for item in cart:
+                try:
+                    product = Product.objects.get(id=item['id'])
+                    total_pounds += float(product.price)
+                    if product.shipping_fee:
+                        total_pounds += float(product.shipping_fee)
+                except Product.DoesNotExist:
+                    return JsonResponse({"error": f"Product {item.get('name')} not found"}, status=404)
+            
+            # 2. Create Local Order (PENDING)
+            order = Order.objects.create(
+                user=request.user if request.user.is_authenticated else None,
+                full_name=shipping.get('fullName'),
+                email=shipping.get('email'),
+                address=shipping.get('address'),
+                city=shipping.get('city'),
+                zip_code=shipping.get('zipCode'),
+                total_price=total_pounds,
+                status='PENDING'
+            )
+            
+            for item in cart:
+                product = Product.objects.get(id=item['id'])
+                OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    price=product.price,
+                    quantity=1
+                )
+
+            # 3. Create Revolut Order
+            amount_cents = int(total_pounds * 100)
             payload = {
                 "amount": amount_cents,
                 "currency": "GBP",
-                "capture_mode": "AUTOMATIC"
+                "capture_mode": "AUTOMATIC",
+                "merchant_order_ext_ref": str(order.id), # Link to our order ID
+                "metadata": {
+                    "local_order_id": str(order.id)
+                }
             }
             
             headers = {
@@ -355,10 +397,18 @@ def create_revolut_order(request):
             
             if response.status_code == 201:
                 revolut_data = response.json()
-                # Revolut uses 'public_id' or 'token' depending on version. 
-                # Let's return the whole thing or specifically public_id
-                return JsonResponse({"public_id": revolut_data.get("public_id")})
+                # Store Revolut Order ID in our DB
+                order.revolut_order_id = revolut_data.get("id")
+                order.save()
+                
+                return JsonResponse({
+                    "public_id": revolut_data.get("public_id"),
+                    "local_order_id": order.id
+                })
             else:
+                # If Revolut fails, we might want to delete the local order or keep it as failed
+                order.status = 'CANCELLED'
+                order.save()
                 return JsonResponse({
                     "error": "Failed to create Revolut order",
                     "details": response.text
@@ -366,6 +416,38 @@ def create_revolut_order(request):
                 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
+            
+    return JsonResponse({"error": "Invalid method"}, status=405)
+
+@csrf_exempt
+def revolut_webhook(request):
+    """
+    Handles payment notifications from Revolut.
+    """
+    if request.method == 'POST':
+        # Optional: Verify signature here if settings.REVOLUT_WEBHOOK_SECRET is set
+        try:
+            data = json.loads(request.body)
+            event = data.get('event')
+            
+            # Revolut sends order data in the 'order' field or directly in payload depending on event
+            order_data = data.get('order') or data
+            revolut_order_id = order_data.get('id')
+            
+            if event == 'ORDER_COMPLETED' or data.get('status') == 'COMPLETED':
+                try:
+                    order = Order.objects.get(revolut_order_id=revolut_order_id)
+                    if order.status == 'PENDING':
+                        order.status = 'PROCESSING'
+                        order.save()
+                        print(f"Order {order.id} marked as PROCESSING via Webhook")
+                except Order.DoesNotExist:
+                    print(f"Webhook received for unknown Revolut Order: {revolut_order_id}")
+            
+            return JsonResponse({"status": "received"})
+        except Exception as e:
+            print(f"Webhook Error: {str(e)}")
+            return JsonResponse({"error": "Invalid payload"}, status=400)
             
     return JsonResponse({"error": "Invalid method"}, status=405)
 
