@@ -7,6 +7,7 @@ class Product(models.Model):
     original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     shipping_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     image_url = models.URLField(max_length=500, blank=True)
+    badge_text = models.CharField(max_length=50, default="Curated", blank=True)
     in_stock = models.BooleanField(default=True)
 
     def __str__(self):
@@ -21,6 +22,7 @@ class Product(models.Model):
             'original_price': str(self.original_price) if self.original_price else None,
             'shipping_fee': str(self.shipping_fee),
             'image_url': self.image_url,
+            'badge_text': self.badge_text,
             'in_stock': self.in_stock,
         }
 

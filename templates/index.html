@@ -53,23 +53,23 @@
             <h3 class="hero-tagline">You Deserve To Be Shower-Fresh Clean</h3>
             <p class="hero-subtitle"><strong>Try our Titan bidet sprayer once. And you'll never return to toilet paper. Willingly...</strong></p>
             <div class="hero-cta" style="display: flex; justify-content: center;">
-                <button class="add-btn" style="width: auto; padding: 1.5rem 4rem; display: inline-block;" ng-click="scrollToProducts()">Shop the Collection</button>
+                <button class="add-btn" style="width: auto; padding: 1.5rem 4rem; display: inline-block;" ng-click="scrollToProducts()">Shop Now</button>
             </div>
         </section>
 
         <!-- Benefits -->
         <section class="bento-grid reveal">
             <div class="bento-item">
-                <h3 class="bento-title">High Pressure</h3>
-                <p class="bento-desc">Engineered for precision flow. Experience consistent power with every use.</p>
+                <h3 class="bento-title">Premium Build</h3>
+                <p class="bento-desc">304 stainless steel, rust-proof, lifetime quality.</p>
             </div>
             <div class="bento-item">
-                <h3 class="bento-title">304 Stainless Steel</h3>
-                <p class="bento-desc">Crafted from industrial-grade materials to ensure a lifetime of rust-free performance.</p>
+                <h3 class="bento-title">Risk-Free Trial</h3>
+                <p class="bento-desc">60-day test drive with confidence.</p>
             </div>
             <div class="bento-item">
-                <h3 class="bento-title">Easy Install</h3>
-                <p class="bento-desc">Universal fit components designed for a 5-minute setup in any modern bathroom.</p>
+                <h3 class="bento-title">5-Year Warranty</h3>
+                <p class="bento-desc">Industry-leading. Most offer 1 year if you're lucky.</p>
             </div>
         </section>
 
@@ -85,7 +85,7 @@
                 <div class="product-card-glow"></div>
                 <div class="product-image">
                     <div class="product-badge" ng-if="product.in_stock">
-                        <span class="badge-icon">✦</span> Curated
+                        <span class="badge-icon">✦</span> {{product.badge_text || 'Curated'}}
                     </div>
                     <div class="product-badge out-of-stock-badge" ng-if="!product.in_stock">
                         ✕ Out of Stock
@@ -95,9 +95,9 @@
                     </button>
                     <img ng-src="{{product.image_url}}" alt="{{product.name}}" onerror="this.src='https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800'">
                     <div class="product-image-overlay" ng-if="product.in_stock">
-                        <button class="quick-view-btn" ng-click="addToCart(product)">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                            Quick Add
+                        <button class="quick-view-btn" ng-click="openImage(product)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            Click to view
                         </button>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                         <h3 class="product-name">{{product.name}}</h3>
                         <div class="product-rating">
                             <span class="stars">★★★★★</span>
-                            <span class="rating-count">4.9</span>
+                            <span class="rating-count">5.0</span>
                         </div>
                     </div>
                     <p class="product-desc">{{product.description}}</p>
@@ -146,18 +146,18 @@
         <div class="testimonial-grid">
             <div class="testimonial-card">
                 <div class="rating">★★★★★</div>
-                <p>"The pressure control on The Bum Gun Pro is exceptional. It transformed my bathroom experience. Truly elite engineering."</p>
-                <div class="client">- Rajesh K., Bangalore</div>
+                <p>"No more bum itch, no more chafed skin, and I'm saving money on loo roll every week. Should have ordered years ago!"</p>
+                <div class="client">- S. Hackney, Leeds</div>
             </div>
             <div class="testimonial-card">
                 <div class="rating">★★★★★</div>
-                <p>"The Gold Edition is a masterpiece. It's not just a jet spray; it's a piece of art that works flawlessly. Worth every rupee."</p>
-                <div class="client">- Anita S., Mumbai</div>
+                <p>"After one use, goodbye toilet paper forever. Cleaner, fresher, & saves money. Installed in my home & office."</p>
+                <div class="client">- Arno, Holland</div>
             </div>
             <div class="testimonial-card">
                 <div class="rating">★★★★★</div>
-                <p>"Installation took me exactly 4 minutes. The quality of the stainless steel hose is far superior to anything I've used before."</p>
-                <div class="client">- Vikram D., Delhi</div>
+                <p>"Paid for itself in 2 mths. Now in every bathroom. Hygiene for my family & employees improved dramatically."</p>
+                <div class="client">- Hurz, Germany</div>
             </div>
         </div>
     </section>
@@ -170,12 +170,12 @@
                     <div class="logo">
                         <img src="/static/images/logo.png" alt="THE BUM GUN" class="logo-img" style="height: 60px;" onerror="this.style.display='none'; this.parentElement.innerHTML='THE BUM GUN'">
                     </div>
-                    <p>Elevating personal hygiene through precision engineering and minimalist luxury.</p>
+                    <p>Toilet paper hurts. Wet wipes clog pipes. Fresh water solves both. The Titan - Cleaner. Fresher. Smarter.</p>
                 </div>
                 <div class="footer-links">
                     <h4>Support</h4>
-                    <a href="" ng-click="openInfo('installation')">Installation Guide</a>
-                    <a href="" ng-click="openInfo('shipping')">Shipping Policy</a>
+                    <a href="" ng-click="openInfo('installation')">Installation</a>
+                    <a href="" ng-click="openInfo('shipping')">Shipping</a>
                     <a href="" ng-click="openInfo('warranty')">Warranty</a>
                 </div>
                 <div class="footer-links">
@@ -186,7 +186,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 The Bum Gun Sanitaryware. All rights reserved.</p>
+                <p>&copy; © 2026 The Bum Gun Ltd. Est. 2012.</p>
                 <div class="legal-links">
                 </div>
             </div>
@@ -398,6 +398,10 @@
                         </div>
                     </div>
                     <div class="admin-form-group">
+                        <label class="admin-form-label">Badge Text (e.g. Curated, New, Hot)</label>
+                        <input type="text" class="admin-form-input" ng-model="editingProduct.badge_text" placeholder="Curated">
+                    </div>
+                    <div class="admin-form-group">
                         <label class="admin-form-label">Description</label>
                         <textarea class="admin-form-textarea" ng-model="editingProduct.description" required placeholder="Describe this product..." rows="3"></textarea>
                     </div>
@@ -594,6 +598,19 @@
     </div>
 
     <div class="toast" ng-class="{'show': showToast}">{{toastMessage}}</div>
+
+    <!-- Image Maximization Modal -->
+    <div class="auth-overlay" ng-class="{'active': isImageModalOpen}" ng-click="isImageModalOpen = false" style="background: rgba(0,0,0,0.95); z-index: 10000;">
+        <button class="close-btn" ng-click="isImageModalOpen = false" style="position: fixed; top: 2rem; right: 2rem; font-size: 3rem; color: white;">&times;</button>
+        <div class="image-modal-container" ng-click="$event.stopPropagation()" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+            <img ng-src="{{selectedImageProduct.image_url}}" alt="{{selectedImageProduct.name}}" style="max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <div style="position: absolute; bottom: 2rem; left: 0; right: 0; text-align: center; color: white;">
+                <h2 style="font-family: var(--font-heading); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.5rem;">{{selectedImageProduct.name}}</h2>
+                <p style="color: var(--accent); letter-spacing: 2px;">£{{selectedImageProduct.price}}</p>
+                <button class="add-btn" style="width: auto; margin-top: 1.5rem; padding: 1rem 3rem;" ng-click="addToCart(selectedImageProduct); isImageModalOpen = false">Add to Cart</button>
+            </div>
+        </div>
+    </div>
 
     <script src="/static/js/app.js"></script>
     <script>

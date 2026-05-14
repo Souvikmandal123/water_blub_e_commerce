@@ -303,6 +303,13 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
     $scope.editingProduct = {};
     $scope.isInfoOpen = false;
     $scope.infoType = '';
+    $scope.isImageModalOpen = false;
+    $scope.selectedImageProduct = null;
+
+    $scope.openImage = function(product) {
+        $scope.selectedImageProduct = product;
+        $scope.isImageModalOpen = true;
+    };
 
     $scope.infoContent = {
         installation: {
@@ -310,12 +317,12 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
             content: 'Follow these steps to install your Titan bidet sprayer:<br><br>1. Turn off water valve<br>2. Flush & disconnect supply line<br>3. Install safety-valve onto tank<br>4. Reconnect supply line to valve<br>5. Seat washers deep into collars and attach hose & sprayer<br>6. Mount holder to wall with fixtures provided<br>7. Turn water back on & test<br><br><a href="https://www.youtube.com/watch?v=6OSDKHiwZm8" target="_blank" class="checkout-btn" style="display: block; text-align: center; margin-top: 1.5rem; text-decoration: none;">Watch Video Tutorial</a>'
         },
         shipping: {
-            title: 'Shipping Policy',
-            content: 'We offer worldwide complimentary express shipping on all orders. <br><br>• Domestic: 2-4 business days.<br>• International: 5-8 business days.<br>• Tracking: You will receive a tracking ID via email once your order is dispatched.<br>• Packaging: All products are shipped in our signature premium protective case.'
+            title: 'BUM GUN SHIPPING POLICY',
+            content: '<b>Fast Delivery</b><br><br>We try to ship all orders as fast as possible, usually within 2-3 days<br>USA, Canada, Europe & Australia: A little longer<br>Please inspect your order on arrival. If items are damaged or missing, contact us ASAP.<br><br>Questions? Contact our real human support team.'
         },
         warranty: {
-            title: 'Elite Warranty',
-            content: 'The Bum Gun stands behind the quality of its engineering. <br><br>• 2-Year Full Coverage: Protection against any manufacturing defects.<br>• Premium Support: 24/7 access to our concierge support team for any technical issues.<br>• Hassle-Free Replacement: If your product fails under normal use, we will ship a replacement free of charge.'
+            title: 'BUM GUN WARRANTY',
+            content: 'The Bum Gun stands behind the quality of its engineering.<br><br><b>60-Day Test Drive:</b> Not satisfied? Full refund. No hassle.<br><b>304 Premium Stainless Steel:</b> Built to last. Rust-free guarantee.<br><b>5-Year Full Coverage:</b> Protection against any manufacturing defects.<br><b>Real Human Support:</b> Speak to actual people who care. No call centres.<br><b>Free Replacement:</b> Product fails under normal use? We send a replacement at no cost.'
         },
         contact: {
             title: 'Contact Us',
@@ -415,7 +422,8 @@ app.controller('ProductController', ['$scope', '$http', '$timeout', function($sc
                 price: $scope.editingProduct.price,
                 original_price: $scope.editingProduct.original_price,
                 shipping_fee: $scope.editingProduct.shipping_fee,
-                image_url: imageUrl || $scope.editingProduct.image_url || ''
+                image_url: imageUrl || $scope.editingProduct.image_url || '',
+                badge_text: $scope.editingProduct.badge_text || 'Curated'
             };
             if ($scope.editingProduct.id) {
                 payload.id = $scope.editingProduct.id;

@@ -257,6 +257,7 @@ def admin_manage_product(request):
             if ship_fee is not None and ship_fee != '':
                 product.shipping_fee = ship_fee
             product.image_url = data.get('image_url', product.image_url)
+            product.badge_text = data.get('badge_text', product.badge_text)
             if 'in_stock' in data:
                 product.in_stock = data['in_stock']
             product.save()
@@ -271,7 +272,8 @@ def admin_manage_product(request):
                 price=data.get('price'),
                 original_price=data.get('original_price'),
                 shipping_fee=data.get('shipping_fee') if data.get('shipping_fee') else 0.00,
-                image_url=data.get('image_url')
+                image_url=data.get('image_url'),
+                badge_text=data.get('badge_text') if data.get('badge_text') else "Curated"
             )
             return JsonResponse({"message": "Product created"}, status=201)
     return JsonResponse({"error": "Invalid request method"}, status=405)
